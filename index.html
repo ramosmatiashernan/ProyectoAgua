@@ -34,17 +34,21 @@
     /* Estilos para la lista de plantas */
     #plant-list {
       position: absolute;
-      top: 150px;  /* Mueve el panel hacia abajo (ajusta el valor según sea necesario) */
+      top: 100px;  /* Mueve el panel hacia abajo (ajusta el valor según sea necesario) */
       left: 10px;
       background-color: rgba(255, 255, 255, 0.7);
-      padding: 10px;
       border-radius: 5px;
       max-height: 400px;
+	  margin-top: 20px;
+	  flex-direction: column;
+	  gap: 10px;	  
       overflow-y: auto;
       font-family: Arial, sans-serif;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      width: 250px; /* Tamaño del panel */
+	  width: 13%; /* Asegura que todos los botones tengan el mismo ancho */
+	  padding: 10px; /* Espaciado interno */
+
 	  display: none;
     }
 
@@ -52,6 +56,7 @@
       cursor: pointer;
       padding: 5px;
       margin: 5px 0;
+	  font-size: 1em; /* Tamaño del texto */	  
       background-color: #f1f1f1;
       border-radius: 3px;
     }
@@ -250,33 +255,22 @@
  
  
 <div id="plant-list">
-    <button id="toggle-panel" onclick="togglePanel()">-</button> <!-- Botón de minimizar/maximizar -->
-    <h3>Capas</h3>
-    <div id="plant-entries"></div>
-    
-    <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reuso</button> <!-- Nuevo botón -->
-	<button id="toggle-Pluvial" onclick="togglePluvial()">Pluvial</button>
+
+	<button id="toggle-Sistema-abastecimiento" onclick="toggleSistemaAbastecimiento()">Sistema de Abastecimiento Actual</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
-    <div id="subpanel-Pluvial" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Empresas</h4>
+    <div id="subpanel-Sistema-abastecimiento" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Sistema de Abastecimiento</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
+
     </div>	
-	<button id="btn-Actual" onclick="toggleMarkers()">Actual</button>
-	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
-    <div id="subpanel" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Marcadores</h4>
-        <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-    </div>
-	
-	<button id="toggle-Otras-Cuencas" onclick="toggleOtrasCuencas()">Otras Cuencas</button> <!-- Nuevo botón -->
+
+		<button id="toggle-Otras-Cuencas" onclick="toggleOtrasCuencas()">Otras Cuencas</button> <!-- Nuevo botón -->
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Otras-Cuencas" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Marcadores</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
     </div>	
-	
-	
-	
+
 	<button id="toggle-Agua-Subterranea" onclick="toggleAguaSubterranea()">Agua Subterránea</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Agua-Subterranea" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
@@ -297,14 +291,28 @@
 		</div>			
     </div>
 
+    <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reuso</button> <!-- Nuevo botón -->
 
-
-	<button id="toggle-Sistema-abastecimiento" onclick="toggleSistemaAbastecimiento()">Sistema de Abastecimiento</button>
+	<button id="toggle-Pluvial" onclick="togglePluvial()">Pluvial</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
-    <div id="subpanel-Sistema-abastecimiento" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Sistema de Abastecimiento</h4>
+    <div id="subpanel-Pluvial" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Empresas</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-    </div>		
+    </div>	
+
+    <button id="Agua-Marina" onclick="toggleAguaMarina()">Agua Marina</button> <!-- Nuevo botón -->
+	
+    <button id="toggle-panel" onclick="togglePanel()">-</button> <!-- Botón de minimizar/maximizar -->
+ <!--   <h3>Capas</h3>  -->
+    <div id="plant-entries"></div>
+
+	<button id="btn-Actual" onclick="toggleMarkers()">Actual</button>
+	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
+    <div id="subpanel" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Marcadores</h4>
+        <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
+    </div>
+	
 </div>
   
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -1444,7 +1452,7 @@
 	  mapa.classList.add("visible");  // Mostrar el mapa añadiendo la clase
 	  
 	  // Mostrar el panel de las plantas
-	  document.getElementById("plant-list").style.display = "block";  // Hacer visible el panel
+	  document.getElementById("plant-list").style.display = "flex";  // Hacer visible el panel
 	  document.getElementById("boton-de-descarga").style.display = "block";  // Hacer visible el boton de descarga
 	  
 	}	
