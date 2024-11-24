@@ -238,7 +238,7 @@
   <!-- Portada (Pantalla de inicio) -->
   <div id="portada" style="display: block;">
     <div id="titulo-portada">
-      <h1>Geolocalización de Plantas de Agua</h1>
+      <h1>GIS <br> INVENTARIO DE AGUA PARA USO INDUSTRIAL</h1>
     </div>
     <div id="boton-ingresar">
       <button onclick="ingresar()">INGRESAR</button>
@@ -351,7 +351,7 @@
 	
 
     openStreetMap.addTo(map);
-
+/*
 	  // Manejador de evento para mostrar las coordenadas al hacer clic
 	 map.on('click', function(e) {
 		var lat = e.latlng.lat.toFixed(6); // Redondeo opcional
@@ -371,7 +371,7 @@
 		  inputCoordenadas.value = "Latitud: " + lat + ", Longitud: " + lng;
 		}
 	  });	
-	
+*/	
 	
     var puntos = [
       { "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108 },
@@ -937,23 +937,9 @@
 				fillOpacity: 0.4
 			}).addTo(map);
 			
-
+			// Vincular popup
+			poligonoAcuifero.bindPopup("<b>Acueducto principal</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "1700-1500 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "259.000", {autoPan: false});
 			
-/*////			
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero2 = L.polyline(coordenadas2, {
-				color: 'red', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);			
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero3 = L.polyline(coordenadas3, {
-				color: 'turquoise', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);	
-*////
 			
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero4 = L.polyline(coordenadas4, {
@@ -961,6 +947,7 @@
 				weight: 4,
 				fillOpacity: 0.4
 			}).addTo(map);			
+
 			
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero5 = L.polyline(coordenadas5, {
@@ -972,24 +959,37 @@
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero6 = L.polyline(coordenadas6, {
 				color: 'green', // Puedes personalizar el color
-				weight: 1,
+				weight: 2,
 				fillOpacity: 0.4
 			}).addTo(map);
+
+			// Vincular popup
+			poligonoAcuifero6.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Acero" + "</b><br>" + "457-381 mm" + "</b><br>" + "Tramo fuera de servicio" + "</b><br>" + "(bypass a HF)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+
+			
 
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero7 = L.polyline(coordenadas7, {
-				color: 'green', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero8 = L.polyline(coordenadas8, {
 				color: 'green', // Puedes personalizar el color
 				weight: 2,
 				fillOpacity: 0.4
 			}).addTo(map);
 
+			// Vincular popup
+			poligonoAcuifero7.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hierro fundido (HF)" + "</b><br>" + "457-381 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+						
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero8 = L.polyline(coordenadas8, {
+				color: 'green', // Puedes personalizar el color
+				weight: 3,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Vincular popup
+			poligonoAcuifero8.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "600 mm" + "</b><br>" + "En reparación" + "</b><br>" + "(próximamente habilitado)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "16.800", {autoPan: false});
+						
+			
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero9 = L.polyline(coordenadas9, {
 				color: 'darkgreen', // Puedes personalizar el color
@@ -1045,7 +1045,7 @@
 				weight: 1,
 				fillOpacity: 0.4
 			}).addTo(map);			
-
+/*
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero18 = L.polyline(coordenadas18, {
 				color: 'black', // Puedes personalizar el color
@@ -1073,7 +1073,7 @@
 				weight: 1,
 				fillOpacity: 0.4
 			}).addTo(map);
-
+*/
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero22 = L.polyline(coordenadas22, {
 				color: 'blue', // Puedes personalizar el color
@@ -1110,10 +1110,10 @@
 			}).addTo(map);
 			
 			// Agregar el marcador con el div personalizado al mapa
-			marcador_cartel = L.marker([carteles_acueductos[0].Latitud, carteles_acueductos[0].Longitud], { icon: cartelDiv }).addTo(map);
-			marcador_cartel2 = L.marker([carteles_acueductos[1].Latitud, carteles_acueductos[1].Longitud], { icon: cartelDiv2 }).addTo(map);
-			marcador_cartel3 = L.marker([carteles_acueductos[2].Latitud, carteles_acueductos[2].Longitud], { icon: cartelDiv3 }).addTo(map);
-			marcador_cartel4 = L.marker([carteles_acueductos[3].Latitud, carteles_acueductos[3].Longitud], { icon: cartelDiv4 }).addTo(map);
+//			marcador_cartel = L.marker([carteles_acueductos[0].Latitud, carteles_acueductos[0].Longitud], { icon: cartelDiv }).addTo(map);
+//			marcador_cartel2 = L.marker([carteles_acueductos[1].Latitud, carteles_acueductos[1].Longitud], { icon: cartelDiv2 }).addTo(map);
+//			marcador_cartel3 = L.marker([carteles_acueductos[2].Latitud, carteles_acueductos[2].Longitud], { icon: cartelDiv3 }).addTo(map);
+//			marcador_cartel4 = L.marker([carteles_acueductos[3].Latitud, carteles_acueductos[3].Longitud], { icon: cartelDiv4 }).addTo(map);
 			
 			
 			polygon = !polygon;
@@ -1154,7 +1154,17 @@
 
 			 AcueductosButton.classList.remove("active");  // Remover la clase 'active'
 			 AcueductosButton.classList.add("nonactive");  // Añadir la clase 'nonactive'		
-		
+
+
+			if (pozosVisible) {
+				toggleSubterraneaPozos()
+					
+			}				
+
+			if (pozosVisible2) {
+				toggleSubterraneaPozos2()
+					
+			}					 
 		polygon = !polygon;
 	  }
     }
