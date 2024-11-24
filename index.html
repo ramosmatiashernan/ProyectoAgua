@@ -275,7 +275,8 @@
     <div id="subpanel-Agua-Subterranea" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Agua Subterranea</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo y San Jose</button>
+		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo</button>
+		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos2()">Pozos Bajo San José</button>
 
 		<button id="toggle-Agua-Subterranea-Empresas" onclick="toggleSubterraneaEmpresas()">Empresas</button>
 		<div id="subpanel-Agua-Subterranea-Empresas" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
@@ -375,13 +376,13 @@
       { "Nombre": "Planta Depuradora de Líquidos Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558 },
       { "Nombre": "Planta Depuradora Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171 },
 	  { "Nombre": "Embalse Dique Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888 },
-	  { "Nombre": "Toma Marisoles", "Latitud": -38.668450, "Longitud": -62.120709 },
-	  { "Nombre": "Toma Empleado de Comercios", "Latitud": -38.678218, "Longitud": -62.168242 },
+	  { "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709 },
+	  { "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242 },
     ];
 
     var puntos_agua_subterranea_empresas = [
-      { "Nombre": "Unipar", "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "Caudal_de_agua_subterránea": 238000 },
-      { "Nombre": "TGS Cerri", "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "Caudal_de_agua_subterránea": 826000 }
+      { "Nombre": "Unipar", "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "Caudal_de_agua_subterránea": "650", "Conductividad": "1.101" },
+      { "Nombre": "TGS Cerri", "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "Caudal_de_agua_subterránea": "2.260" , "Conductividad": "1.021-5.080 (media=2.777)" }
     ];
 	
 	var areaEmpresas = [
@@ -449,9 +450,9 @@
 
 
     var puntos_Otras_Cuencas = [
-		{ "Nombre": "Toma Marisoles", "Latitud": -38.668450, "Longitud": -62.120709 },
-		{ "Nombre": "Toma Empleado de Comercios", "Latitud": -38.678218, "Longitud": -62.168242 },
-		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676 }
+		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
+		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" }
     ];	
 	
     var puntos_Plantas_pri_sec_cuenca = [
@@ -488,13 +489,24 @@
 	
 	var OtrasCuencasMarkers = {}; // Objeto para guardar los marcadores
 	var OtrasCuencasmarkersVisible = false; // Estado de visibilidad inicial
-        
+
+    var puntos_Otras_Cuencas = [
+		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
+		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" }
+    ];	
+	
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
 	puntos_Otras_Cuencas.forEach(function(punto) {
-	  var marker = L.marker([punto.Latitud, punto.Longitud])
-//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
-		.bindPopup("<b>" + punto.Nombre);
-		
+		if (punto.Nombre != "Puente Canessa") {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.Caudal);
+		} else {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal potencialmente disponible (m<sup>3</sup>/d): " + punto.Caudal);		
+		}
 	  // Guardar el marcador en un objeto para futura interacción
 	  OtrasCuencasMarkers[punto.Nombre] = marker;
 
@@ -1089,7 +1101,7 @@
 
 
 	
-    var puntos_pozos_cabildo_y_san_jose = [
+    var puntos_pozo_cabildo = [
         {"Nombre": "1", "Latitud": -38.484677, "Longitud": -61.827227 },
 		{"Nombre": "2", "Latitud": -38.485265, "Longitud": -61.827742 },
 		{"Nombre": "3", "Latitud": -38.485920, "Longitud": -61.828536 },	
@@ -1106,8 +1118,10 @@
 		{"Nombre": "14", "Latitud": -38.493982, "Longitud": -61.839651 },	
 		{"Nombre": "15", "Latitud": -38.493277, "Longitud": -61.840574 },
 		{"Nombre": "16", "Latitud": -38.495410, "Longitud": -61.839715 },
-		{"Nombre": "31", "Latitud": -38.481186, "Longitud": -61.796792 },	
 	
+	];
+	
+    var puntos_pozo_san_jose = [	
 		{"Nombre": "17", "Latitud": -38.471920, "Longitud": -61.795540 },
 		{"Nombre": "18", "Latitud": -38.472273, "Longitud": -61.793909 },
 		{"Nombre": "19", "Latitud": -38.473365, "Longitud": -61.793952 },
@@ -1116,7 +1130,7 @@
 		{"Nombre": "22", "Latitud": -38.476557, "Longitud": -61.797127 },
 		{"Nombre": "23", "Latitud": -38.478844, "Longitud": -61.797173 },
 		{"Nombre": "24", "Latitud": -38.481837, "Longitud": -61.792894 },
-		
+		{"Nombre": "31", "Latitud": -38.481186, "Longitud": -61.796792 },		
 		{"Nombre": "25", "Latitud": -38.487778, "Longitud": -61.788247 },	
 		{"Nombre": "26", "Latitud": -38.490172, "Longitud": -61.788360 },	
 		{"Nombre": "27", "Latitud": -38.490438, "Longitud": -61.791078 },	
@@ -1128,6 +1142,8 @@
 	var pozosMarkers = {}; // Objeto para guardar los marcadores
 	var pozosVisible = false; // Estado de visibilidad inicial
 	
+	var pozosMarkers2 = {}; // Objeto para guardar los marcadores
+	var pozosVisible2 = false; // Estado de visibilidad inicial
 
 	// Crear un icono pequeño
 	var smallMarker = L.divIcon({
@@ -1138,14 +1154,20 @@
 	});
 
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
-	puntos_pozos_cabildo_y_san_jose.forEach(function(punto) {
+	puntos_pozo_cabildo.forEach(function(punto) {
 	  var marker = L.marker([punto.Latitud, punto.Longitud], { icon: smallMarker });
 
 	  // Guardar el marcador en un objeto para futura interacción
 	  pozosMarkers[punto.Nombre] = marker;
 	});	
 	
-	
+	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
+	puntos_pozo_san_jose.forEach(function(punto) {
+	  var marker = L.marker([punto.Latitud, punto.Longitud], { icon: smallMarker });
+
+	  // Guardar el marcador en un objeto para futura interacción
+	  pozosMarkers2[punto.Nombre] = marker;
+	});		
 	
       // Los puntos de la variable puntos_area_primera_cuenca
     var puntos_area_primera_cuenca = [
@@ -1266,7 +1288,7 @@
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
 	puntos_agua_subterranea_empresas.forEach(function(punto) {
 	  var marker = L.marker([punto.Latitud, punto.Longitud])
-		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal Agua Subterránea (m<sup>3</sup>/año): " + punto.Caudal_de_agua_subterránea);
+		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal captado (m<sup>3</sup>/d): " + punto.Caudal_de_agua_subterránea + "</b><br>" + "Conductividad (uS/cm): " + punto.Conductividad);
 
 	  // Guardar el marcador en un objeto para futura interacción
 	  Empresas_Markers[punto.Nombre] = marker;
@@ -1289,6 +1311,7 @@
 	
 	function toggleSubterraneaPozos() {
 	  var btnPozos = document.getElementById("toggle-Agua-Subterranea-Pozos");
+	  
 	  if (pozosVisible) {
 		// Si los marcadores están visibles, eliminarlos del mapa
 		for (var nombre in pozosMarkers) {
@@ -1313,6 +1336,40 @@
 	
 	}
 	
+	function toggleSubterraneaPozos2() {
+	  var btnPozos2 = document.getElementById("toggle-Agua-Subterranea-Pozos2");
+	  
+	  if (pozosVisible2) {
+		// Si los marcadores están visibles, eliminarlos del mapa
+		for (var nombre in pozosMarkers2) {
+		  if (pozosMarkers2.hasOwnProperty(nombre)) {
+		    map.removeLayer(pozosMarkers2[nombre]);
+		  }
+		}
+		  btnPozos2.classList.remove("active");  // Remover la clase 'active'
+		  btnPozos2.classList.add("nonactive");  // Añadir la clase 'nonactive'	
+	  } else {
+		btnPozos2.classList.toggle("active");
+		// Si los marcadores están ocultos, agregarlos al mapa
+		for (var nombre in pozosMarkers2) {
+		  if (pozosMarkers2.hasOwnProperty(nombre)) {
+			pozosMarkers2[nombre].addTo(map);
+		  }
+		}
+	  }
+
+	  // Cambiar el estado de visibilidad
+	  pozosVisible2 = !pozosVisible2;	
+	
+	}
+
+
+//	  var btnPozos2 = document.getElementById("toggle-Agua-Subterranea-Pozos2");
+	  
+	  
+//		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo</button>
+//		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos()">Pozos Bajo San José</button>	  
+
 	
 	// Función para manejar la visibilidad de los marcadores y el subpanel
 	function toggleMarkers() {
