@@ -261,7 +261,6 @@
     <div id="subpanel-Sistema-abastecimiento" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Sistema de Abastecimiento</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-
     </div>	
 
 		<button id="toggle-Otras-Cuencas" onclick="toggleOtrasCuencas()">Otras Cuencas</button> <!-- Nuevo botón -->
@@ -292,7 +291,12 @@
     </div>
 
     <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reuso</button> <!-- Nuevo botón -->
-
+	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
+    <div id="subpanel-Reuso" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Marcadores</h4>
+        <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
+    </div>	
+	
 	<button id="toggle-Pluvial" onclick="togglePluvial()">Pluvial</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Pluvial" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
@@ -450,7 +454,37 @@
 		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676 }
     ];	
 	
+    var puntos_Plantas_pri_sec_cuenca = [
+		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558, "Caudal": "84.000" },
+		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171, "Caudal": "12.000" },
+    ];
 
+	var Plantas_pri_sec_cuencaMarkers = {}; // Objeto para guardar los marcadores
+	var Plantas_pri_sec_cuencaVisible = false; // Estado de visibilidad inicial
+
+	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
+	puntos_Plantas_pri_sec_cuenca.forEach(function(punto) {
+	  var marker = L.marker([punto.Latitud, punto.Longitud])
+//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal de diseño (m<sup>3</sup>/d): " + punto.Caudal);
+		
+	  // Guardar el marcador en un objeto para futura interacción
+	  Plantas_pri_sec_cuencaMarkers[punto.Nombre] = marker;
+
+	  // Mostrar la información al pasar el mouse (hover)
+	  marker.on('mouseover', function() {
+		marker.openPopup();
+	  });
+
+	  // Comportamiento al hacer click para mantener el pop-up abierto
+	  marker.on('click', function() {
+		if (marker.isPopupOpen()) {
+		  marker.closePopup();
+		} else {
+		  marker.openPopup();
+		}
+	  });
+	});
 	
 	var OtrasCuencasMarkers = {}; // Objeto para guardar los marcadores
 	var OtrasCuencasmarkersVisible = false; // Estado de visibilidad inicial
@@ -1379,12 +1413,12 @@
 	
 	
 	var areaEmpresas = [
-		{"Latitud": -38.785531834725035, "Longitud": -62.281728805807646, "tamaño": 209.6425529, "Nombre": "Profertil", "Caudal_Recolectado": 28743},  //Profertil
-		{"Latitud": -38.78293923077242, "Longitud": -62.290494264514145, "tamaño": 95.60857702, "Nombre": "Mega", "Caudal_Recolectado": 5978 },   //Mega
-		{"Latitud": -38.76844400179251, "Longitud": -62.286881328049546, "tamaño": 206.8332662, "Nombre": "Dow", "Caudal_Recolectado": 27978 },  //Dow
-		{"Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "tamaño": 133.4765897, "Nombre": "TGS Cerri", "Caudal_Recolectado": 11652 },	//TGS Cerri
-		{"Latitud": -38.774332782559966, "Longitud": -62.299820304552654, "tamaño": 47.31807266, "Nombre": "TGS Galván", "Caudal_Recolectado": 1464	 },	//TGS Galván
-		{"Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 209.6425529, "Nombre": "Unipar", "Caudal_Recolectado": 25911 }	//Unipar
+		{"Latitud": -38.785531834725035, "Longitud": -62.281728805807646, "tamaño": 209.6425529, "Nombre": "Profertil", "Caudal_Recolectado": 79},  //Profertil
+		{"Latitud": -38.78293923077242, "Longitud": -62.290494264514145, "tamaño": 95.60857702, "Nombre": "Mega", "Caudal_Recolectado": 16 },   //Mega
+		{"Latitud": -38.76844400179251, "Longitud": -62.286881328049546, "tamaño": 206.8332662, "Nombre": "Dow", "Caudal_Recolectado": 77 },  //Dow
+		{"Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "tamaño": 133.4765897, "Nombre": "TGS Cerri", "Caudal_Recolectado": 32 },	//TGS Cerri
+		{"Latitud": -38.774332782559966, "Longitud": -62.299820304552654, "tamaño": 47.31807266, "Nombre": "TGS Galván", "Caudal_Recolectado": 4	 },	//TGS Galván
+		{"Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 209.6425529, "Nombre": "Unipar", "Caudal_Recolectado": 71 }	//Unipar
 	];
 
 	// Variable para controlar el estado del botón (si está activo o no)
@@ -1531,7 +1565,7 @@
 		  // Agregar el evento `mouseover` solo cuando la capa sea visible
 		  empresaLayers[i].on('mouseover', function() {
 			if (pluvialVisible) {  // Verifica si la capa es visible
-			  empresaLayers[i].bindPopup("<b>" + areaEmpresas[i].Nombre + "</b><br>" + "Caudal Recolectado (m<sup>3</sup>/año): " + areaEmpresas[i].Caudal_Recolectado).openPopup();
+			  empresaLayers[i].bindPopup("<b>" + areaEmpresas[i].Nombre + "</b><br>" + "Caudal potencialmente recolectable (m<sup>3</sup>/d): " + areaEmpresas[i].Caudal_Recolectado).openPopup();
 			}
 		  });
 		  
@@ -1582,8 +1616,70 @@
 	  });
 	}	
 	
+	
+	
+/*	
+	function toggleOtrasCuencas() {
+	  var btnOtrasCuencas = document.getElementById("toggle-Otras-Cuencas");
+	  var subpanelOtrasCuencas = document.getElementById("subpanel-Otras-Cuencas");
+	  if (OtrasCuencasmarkersVisible) {
+		  btnOtrasCuencas.classList.remove("active");  // Remover la clase 'active'
+		  btnOtrasCuencas.classList.add("nonactive");  // Añadir la clase 'nonactive'	
+		// Si los marcadores están visibles, eliminarlos del mapa
+		for (var nombre in OtrasCuencasMarkers) {
+		  if (OtrasCuencasMarkers.hasOwnProperty(nombre)) {	  
+			map.removeLayer(OtrasCuencasMarkers[nombre]);
+		  }
+		}
+		subpanelOtrasCuencas.style.display = "none"; // Ocultar el subpanel
+	  } else {
+	    btnOtrasCuencas.classList.toggle("active");
+		// Si los marcadores están ocultos, agregarlos al mapa
+		for (var nombre in OtrasCuencasMarkers) {
+		  if (OtrasCuencasMarkers.hasOwnProperty(nombre)) {
+			OtrasCuencasMarkers[nombre].addTo(map);
+		  }
+		}
+		subpanelOtrasCuencas.style.display = "block"; // Mostrar el subpanel
+
+		// Crear botones para cada marcador en el subpanel
+		subpanelOtrasCuencas.innerHTML = "<h4> Marcadores </h4>"; // Limpiar el contenido existente y agregar el título
+		puntos_Otras_Cuencas.forEach(function(punto) {
+		  var OtrasCuencasmarkerButton = document.createElement("button");
+		  OtrasCuencasmarkerButton.classList.add("marker-Button"); // Asignar clase		  
+		  OtrasCuencasmarkerButton.innerHTML = punto.Nombre;
+		  OtrasCuencasmarkerButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
+		  OtrasCuencasmarkerButton.style.marginBottom = "5px"; // Espacio entre los botones
+		  OtrasCuencasmarkerButton.onclick = function() {
+			map.flyTo([punto.Latitud, punto.Longitud], 14, {
+			animate: true,
+			duration: 2.0
+			}); // Ajusta el nivel de zoom según sea necesario
+		  };
+		  subpanelOtrasCuencas.appendChild(OtrasCuencasmarkerButton);
+		});
+	
+	  }
+
+	  // Cambiar el estado de visibilidad
+	  OtrasCuencasmarkersVisible = !OtrasCuencasmarkersVisible;
+	
+	}	
+	
+
+	
+    var puntos_Plantas_pri_sec_cuenca = [
+		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558, "Caudal": 84.000 },
+		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171, "Caudal": 12.000 },
+    ];
+
+	var Plantas_pri_sec_cuencaMarkers = {}; // Objeto para guardar los marcadores
+	var Plantas_pri_sec_cuencaVisible = false; // Estado de visibilidad inicial
+*/		
+	
 	function toggleConvexHulls() {
 		var btnConvexHulls = document.getElementById("toggle-convex-hulls");
+		var subpanelReuso = document.getElementById("subpanel-Reuso");		
 		if (convexHullsVisible) {
 			btnConvexHulls.classList.remove("active");  // Remover la clase 'active'
 			btnConvexHulls.classList.add("nonactive");  // Añadir la clase 'nonactive'
@@ -1592,6 +1688,16 @@
 				map.removeLayer(layer);
 			});
 			convexHullsVisible = false;
+			subpanelReuso.style.display = "none"; // Ocultar el subpanel
+			
+			// Si los marcadores están visibles, eliminarlos del mapa
+			for (var nombre in Plantas_pri_sec_cuencaMarkers) {
+			  if (Plantas_pri_sec_cuencaMarkers.hasOwnProperty(nombre)) {	  
+				map.removeLayer(Plantas_pri_sec_cuencaMarkers[nombre]);
+			  }
+			}			
+			
+			
 		} else {
 			btnConvexHulls.classList.toggle("active");
 			// Mostrar las envolventes convexas
@@ -1644,9 +1750,43 @@
 			
 			convexHullLayers.push(hull_cuenca_tercera); // Agregar la capa al array
 			convexHullsVisible = true;
+			
+			
+			
+			subpanelReuso.style.display = "block"; // Mostrar el subpanel
+			
+			// Si los marcadores están ocultos, agregarlos al mapa
+			for (var nombre in Plantas_pri_sec_cuencaMarkers) {
+			  if (Plantas_pri_sec_cuencaMarkers.hasOwnProperty(nombre)) {
+				Plantas_pri_sec_cuencaMarkers[nombre].addTo(map);
+			  }
+			}			
+			// Crear botones para cada marcador en el subpanel
+			subpanelReuso.innerHTML = "<h4> Marcadores </h4>"; // Limpiar el contenido existente y agregar el título
+			puntos_Plantas_pri_sec_cuenca.forEach(function(punto) {
+			  var puntos_Plantas_pri_sec_cuencaButton = document.createElement("button");
+			  puntos_Plantas_pri_sec_cuencaButton.classList.add("marker-Button"); // Asignar clase		  
+			  puntos_Plantas_pri_sec_cuencaButton.innerHTML = punto.Nombre;
+			  puntos_Plantas_pri_sec_cuencaButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
+			  puntos_Plantas_pri_sec_cuencaButton.style.marginBottom = "5px"; // Espacio entre los botones
+			  puntos_Plantas_pri_sec_cuencaButton.onclick = function() {
+				map.flyTo([punto.Latitud, punto.Longitud], 14, {
+				animate: true,
+				duration: 2.0
+				}); // Ajusta el nivel de zoom según sea necesario
+			  };
+			  subpanelReuso.appendChild(puntos_Plantas_pri_sec_cuencaButton);
+			});
+		
+			// Cambiar el estado de visibilidad
+//			Plantas_pri_sec_cuencaVisible = !Plantas_pri_sec_cuencaVisible;
 		}
 	}		
 
+	
+
+	
+	
 	function toggleOtrasCuencas() {
 	  var btnOtrasCuencas = document.getElementById("toggle-Otras-Cuencas");
 	  var subpanelOtrasCuencas = document.getElementById("subpanel-Otras-Cuencas");
