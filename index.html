@@ -807,9 +807,10 @@
 	
     // Mostrar el polígono al hacer clic en "Acueductos"
     function toggleAcueductos() {
-	  var AcueductosButton = document.getElementById("acueductos-button");
+	  var AcueductosButton = document.getElementById("acueductos-button");	  
       if (!polygon) {
-
+	  
+		    
 
 			if (!pozosVisible) {
 				toggleSubterraneaPozos()
@@ -938,7 +939,7 @@
 			}).addTo(map);
 			
 			// Vincular popup
-			poligonoAcuifero.bindPopup("<b>Acueducto principal</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "1700-1500 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "259.000", {autoPan: false});
+//			poligonoAcuifero.bindPopup("<b>Acueducto principal</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "1700-1500 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "259.000", {autoPan: false});
 			
 			
 			// Crear y agregar el polígono al mapa
@@ -964,7 +965,7 @@
 			}).addTo(map);
 
 			// Vincular popup
-			poligonoAcuifero6.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Acero" + "</b><br>" + "457-381 mm" + "</b><br>" + "Tramo fuera de servicio" + "</b><br>" + "(bypass a HF)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+//			poligonoAcuifero6.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Acero" + "</b><br>" + "457-381 mm" + "</b><br>" + "Tramo fuera de servicio" + "</b><br>" + "(bypass a HF)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
 
 			
 
@@ -976,7 +977,7 @@
 			}).addTo(map);
 
 			// Vincular popup
-			poligonoAcuifero7.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hierro fundido (HF)" + "</b><br>" + "457-381 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+//			poligonoAcuifero7.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hierro fundido (HF)" + "</b><br>" + "457-381 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
 						
 			
 			// Crear y agregar el polígono al mapa
@@ -987,7 +988,7 @@
 			}).addTo(map);
 
 			// Vincular popup
-			poligonoAcuifero8.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "600 mm" + "</b><br>" + "En reparación" + "</b><br>" + "(próximamente habilitado)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "16.800", {autoPan: false});
+//			poligonoAcuifero8.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "600 mm" + "</b><br>" + "En reparación" + "</b><br>" + "(próximamente habilitado)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "16.800", {autoPan: false});
 						
 			
 			// Crear y agregar el polígono al mapa
@@ -1115,10 +1116,11 @@
 //			marcador_cartel3 = L.marker([carteles_acueductos[2].Latitud, carteles_acueductos[2].Longitud], { icon: cartelDiv3 }).addTo(map);
 //			marcador_cartel4 = L.marker([carteles_acueductos[3].Latitud, carteles_acueductos[3].Longitud], { icon: cartelDiv4 }).addTo(map);
 			
-			
-			polygon = !polygon;
       } else {
-	  
+	  	  
+			AcueductosButton.classList.remove("active");  // Remover la clase 'active'
+			AcueductosButton.classList.add("nonactive");  // Añadir la clase 'nonactive'
+			
 			// Si el polígono ya está visible, eliminarlo del mapa
 			map.removeLayer(poligonoAcuifero);
 //			map.removeLayer(poligonoAcuifero2);
@@ -1137,24 +1139,20 @@
 			map.removeLayer(poligonoAcuifero15);
 			map.removeLayer(poligonoAcuifero16);
 			map.removeLayer(poligonoAcuifero17);
-			map.removeLayer(poligonoAcuifero18);		
-			map.removeLayer(poligonoAcuifero19);
-			map.removeLayer(poligonoAcuifero20);			
-			map.removeLayer(poligonoAcuifero21);
+//			map.removeLayer(poligonoAcuifero18);		
+//			map.removeLayer(poligonoAcuifero19);
+//			map.removeLayer(poligonoAcuifero20);			
+//			map.removeLayer(poligonoAcuifero21);
 			map.removeLayer(poligonoAcuifero22);
 			map.removeLayer(poligonoAcuifero23);
 			map.removeLayer(poligonoAcuifero24);
 			map.removeLayer(poligonoAcuifero25);
 			map.removeLayer(poligonoAcuifero26);
 			
-			map.removeLayer(marcador_cartel);
-			map.removeLayer(marcador_cartel2);
-			map.removeLayer(marcador_cartel3);
-			map.removeLayer(marcador_cartel4);	  
-
-			 AcueductosButton.classList.remove("active");  // Remover la clase 'active'
-			 AcueductosButton.classList.add("nonactive");  // Añadir la clase 'nonactive'		
-
+//			map.removeLayer(marcador_cartel);
+//			map.removeLayer(marcador_cartel2);
+//			map.removeLayer(marcador_cartel3);
+//			map.removeLayer(marcador_cartel4);	  
 
 			if (pozosVisible) {
 				toggleSubterraneaPozos()
@@ -1164,9 +1162,14 @@
 			if (pozosVisible2) {
 				toggleSubterraneaPozos2()
 					
-			}					 
-		polygon = !polygon;
+			}
+
+//			AcueductosButton.classList.remove("active");  // Remover la clase 'active'
+//			AcueductosButton.classList.add("nonactive");  // Añadir la clase 'nonactive'		
+			
+
 	  }
+	  	polygon = !polygon;
     }
 	
 	
@@ -1175,11 +1178,11 @@
 	function toggleSistemaAbastecimiento() {
 		var btnSistemaAbastecimiento = document.getElementById("toggle-Sistema-abastecimiento");
 		var subpanelSistemaAbastecimiento = document.getElementById("subpanel-Sistema-abastecimiento");
-		
+		var AcueductosButton = document.getElementById("acueductos-button");		
 		if (!poligonoVisible) {
 		
 	
-			var AcueductosButton = document.getElementById("acueductos-button");
+
 
 			
 			for (var nombre in SistemaAbastecimientoMarkers) {
