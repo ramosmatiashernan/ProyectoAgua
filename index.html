@@ -351,7 +351,7 @@
 	
 
     openStreetMap.addTo(map);
-/*
+
 	  // Manejador de evento para mostrar las coordenadas al hacer clic
 	 map.on('click', function(e) {
 		var lat = e.latlng.lat.toFixed(6); // Redondeo opcional
@@ -371,7 +371,7 @@
 		  inputCoordenadas.value = "Latitud: " + lat + ", Longitud: " + lng;
 		}
 	  });	
-*/	
+	
 	
     var puntos = [
       { "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108 },
@@ -399,7 +399,7 @@
 	
 
 
-
+/*
     var puntos_acuifero_principal = [
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
         {"Nombre": "2", "Latitud": -38.435057, "Longitud": -61.790536 },
@@ -417,7 +417,26 @@
 		{"Nombre": "14", "Latitud": -38.698627, "Longitud": -62.167582 },
 		{"Nombre": "15", "Latitud": -38.704485, "Longitud": -62.211018 }		
     ];	
+*/
+    var puntos_acuifero_principal = [
+        {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
+        {"Nombre": "2", "Latitud": -38.435057, "Longitud": -61.790536 },
+		{"Nombre": "3", "Latitud": -38.439360, "Longitud": -61.791222 },
+		{"Nombre": "4", "Latitud": -38.453880, "Longitud": -61.794827 },		
+		{"Nombre": "5", "Latitud": -38.508430, "Longitud": -61.823097 },		
+		{"Nombre": "6", "Latitud": -38.551764, "Longitud": -61.840408 },		
+		{"Nombre": "7", "Latitud": -38.575466, "Longitud": -61.860184 },		
+		{"Nombre": "8", "Latitud": -38.607701, "Longitud": -61.899748 },		
+		{"Nombre": "9", "Latitud": -38.620366, "Longitud": -61.920372 },		
+		{"Nombre": "10", "Latitud": -38.642969, "Longitud": -61.944828 },		
+//		{"Nombre": "11", "Latitud": -38.668011, "Longitud": -62.005709 },		
 
+		{"Nombre": "11", "Latitud": -38.669295, "Longitud": -61.998357 }, // tore 6
+		{"Nombre": "12", "Latitud": -38.676951, "Longitud": -62.041803 }, // tore 7
+		{"Nombre": "13", "Latitud": -38.686940, "Longitud": -62.098953 }, // tore 8
+		{"Nombre": "14", "Latitud": -38.696896, "Longitud": -62.156075 }, // tore 9
+		{"Nombre": "15", "Latitud": -38.704485, "Longitud": -62.211018 }		
+    ];
 	
     var puntos_acuifero_principal_a_cabildo = [
         {"Nombre": "1", "Latitud": -38.516780, "Longitud": -61.851053 },
@@ -433,10 +452,9 @@
 		{"Nombre": "4", "Latitud": -38.750772, "Longitud": -62.114719 }
     ];		
 	
-	
     var puntos_acuifero_principal_a_toma_marisoles = [
-        {"Nombre": "1", "Latitud": -38.700964, "Longitud": -62.097774},
-		{"Nombre": "2", "Latitud": -38.669396, "Longitud": -62.120544 },
+        {"Nombre": "1", "Latitud": -38.669295, "Longitud": -61.998357},
+		{"Nombre": "2", "Latitud": -38.674454, "Longitud": -62.042284 },
 		{"Nombre": "3", "Latitud": -38.668450, "Longitud": -62.120709 }
     ];		
 
@@ -583,18 +601,19 @@
 
 
 
-	
+
     var puntos_acuifero_secundario1 = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
-
-		{"Nombre": "7", "Latitud": -38.667185, "Longitud": -61.945868 },
+        {"Nombre": "1", "Latitud": -38.709558, "Longitud": -62.066274 },
+		{"Nombre": "7", "Latitud": -38.661654, "Longitud": -61.953449 },
 		{"Nombre": "7", "Latitud": -38.572388, "Longitud": -61.853625 },
 		{"Nombre": "7", "Latitud": -38.545093, "Longitud": -61.831368 },
-		{"Nombre": "7", "Latitud": -38.511626, "Longitud": -61.805948 },		
+		
+		{"Nombre": "7", "Latitud": -38.511597, "Longitud": -61.806357 },		
 		{"Nombre": "1", "Latitud": -38.485623, "Longitud": -61.792469 },
         {"Nombre": "2", "Latitud": -38.478446, "Longitud": -61.791005 },
 		{"Nombre": "3", "Latitud": -38.454210, "Longitud": -61.793201 },
-		{"Nombre": "4", "Latitud": -38.447713, "Longitud": -61.788042 },
+//		{"Nombre": "4", "Latitud": -38.447713, "Longitud": -61.788042 },
 		{"Nombre": "5", "Latitud": -38.439239, "Longitud": -61.788766 },
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
 	
@@ -602,15 +621,16 @@
 
     var puntos_acuifero_secundario2 = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
+        {"Nombre": "1", "Latitud": -38.711316, "Longitud": -62.064643 },
 
-		{"Nombre": "7", "Latitud": -38.670090, "Longitud": -61.942263 },
+		{"Nombre": "7", "Latitud": -38.663832, "Longitud": -61.951261 },
 		{"Nombre": "7", "Latitud": -38.572987, "Longitud": -61.852542 },		
 		{"Nombre": "7", "Latitud": -38.546433, "Longitud": -61.829213 },
 		{"Nombre": "7", "Latitud": -38.511934, "Longitud": -61.805098 },		
 		{"Nombre": "1", "Latitud": -38.485650, "Longitud": -61.790866 },
         {"Nombre": "2", "Latitud": -38.478610, "Longitud": -61.789576 },
 		{"Nombre": "3", "Latitud": -38.454756, "Longitud": -61.791667 },
-		{"Nombre": "4", "Latitud": -38.447822, "Longitud": -61.785393 },
+//		{"Nombre": "4", "Latitud": -38.447822, "Longitud": -61.785393 },
 		{"Nombre": "5", "Latitud": -38.439799, "Longitud": -61.787596 },
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
 	
@@ -618,15 +638,18 @@
 
     var puntos_acuifero_secundario3 = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
+        {"Nombre": "1", "Latitud": -38.712907, "Longitud": -62.061982 },
 
-		{"Nombre": "7", "Latitud": -38.672026, "Longitud": -61.940234 },		
-		{"Nombre": "7", "Latitud": -38.573462, "Longitud": -61.851538 },		
+		{"Nombre": "7", "Latitud": -38.665910, "Longitud": -61.948042 },
+		
+		{"Nombre": "7", "Latitud": -38.573854, "Longitud": -61.851289 },
+		
 		{"Nombre": "7", "Latitud": -38.547997, "Longitud": -61.826565 },
 		{"Nombre": "7", "Latitud": -38.512522, "Longitud": -61.804161 },
 		{"Nombre": "1", "Latitud": -38.485650, "Longitud": -61.789471 },
         {"Nombre": "2", "Latitud": -38.478773, "Longitud": -61.788391 },
 		{"Nombre": "3", "Latitud": -38.455384, "Longitud": -61.790238 },
-		{"Nombre": "4", "Latitud": -38.447877, "Longitud": -61.783162 },
+//		{"Nombre": "4", "Latitud": -38.447877, "Longitud": -61.783162 },
 		{"Nombre": "5", "Latitud": -38.440640, "Longitud": -61.786230 },
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
 	
@@ -652,10 +675,10 @@
 	
     var puntos_planta_grunbein_a_punta = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
-		{"Nombre": "1", "Latitud": -38.752445, "Longitud": -62.112443 },
-		{"Nombre": "1", "Latitud": -38.758519, "Longitud": -62.117207 },
-		{"Nombre": "1", "Latitud": -38.763505, "Longitud": -62.110770 },
-		{"Nombre": "1", "Latitud": -38.772902, "Longitud": -62.122630 },
+//		{"Nombre": "1", "Latitud": -38.752445, "Longitud": -62.112443 },
+//		{"Nombre": "1", "Latitud": -38.758519, "Longitud": -62.117207 },
+//		{"Nombre": "1", "Latitud": -38.763505, "Longitud": -62.110770 },
+//		{"Nombre": "1", "Latitud": -38.772902, "Longitud": -62.122630 },
 		{"Nombre": "1", "Latitud": -38.774513, "Longitud": -62.117145 },
 		{"Nombre": "1", "Latitud": -38.819502, "Longitud": -62.105249 },
 		{"Nombre": "1", "Latitud": -38.829333, "Longitud": -62.097923 },
@@ -939,7 +962,7 @@
 			}).addTo(map);
 			
 			// Vincular popup
-//			poligonoAcuifero.bindPopup("<b>Acueducto principal</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "1700-1500 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "259.000", {autoPan: false});
+			poligonoAcuifero.bindPopup("<b>Acueducto principal</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "1700-1500 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "259.000", {autoPan: false});
 			
 			
 			// Crear y agregar el polígono al mapa
@@ -965,7 +988,7 @@
 			}).addTo(map);
 
 			// Vincular popup
-//			poligonoAcuifero6.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Acero" + "</b><br>" + "457-381 mm" + "</b><br>" + "Tramo fuera de servicio" + "</b><br>" + "(bypass a HF)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+			poligonoAcuifero6.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Acero" + "</b><br>" + "457-381 mm" + "</b><br>" + "Tramo fuera de servicio" + "</b><br>" + "(bypass a HF)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
 
 			
 
@@ -977,7 +1000,7 @@
 			}).addTo(map);
 
 			// Vincular popup
-//			poligonoAcuifero7.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hierro fundido (HF)" + "</b><br>" + "457-381 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+			poligonoAcuifero7.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hierro fundido (HF)" + "</b><br>" + "457-381 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
 						
 			
 			// Crear y agregar el polígono al mapa
@@ -988,16 +1011,16 @@
 			}).addTo(map);
 
 			// Vincular popup
-//			poligonoAcuifero8.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "600 mm" + "</b><br>" + "En reparación" + "</b><br>" + "(próximamente habilitado)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "16.800", {autoPan: false});
+			poligonoAcuifero8.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "600 mm" + "</b><br>" + "En reparación" + "</b><br>" + "(próximamente habilitado)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "16.800", {autoPan: false});
 						
-			
+/*			
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero9 = L.polyline(coordenadas9, {
 				color: 'darkgreen', // Puedes personalizar el color
 				weight: 4,
 				fillOpacity: 0.4
 			}).addTo(map);
-
+*/
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero10 = L.polyline(coordenadas10, {
 				color: 'blue', // Puedes personalizar el color
@@ -1130,7 +1153,7 @@
 			map.removeLayer(poligonoAcuifero6);
 			map.removeLayer(poligonoAcuifero7);
 			map.removeLayer(poligonoAcuifero8);
-			map.removeLayer(poligonoAcuifero9);
+//			map.removeLayer(poligonoAcuifero9);
 			map.removeLayer(poligonoAcuifero10);
 			map.removeLayer(poligonoAcuifero11);	
 			map.removeLayer(poligonoAcuifero12);
