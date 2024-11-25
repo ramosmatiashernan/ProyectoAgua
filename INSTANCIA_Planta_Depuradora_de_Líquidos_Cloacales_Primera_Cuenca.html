@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa Interactivo con Leaflet</title>
+  <title>GIS Proyecto Agua</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
   
@@ -34,24 +34,29 @@
     /* Estilos para la lista de plantas */
     #plant-list {
       position: absolute;
-      top: 150px;  /* Mueve el panel hacia abajo (ajusta el valor según sea necesario) */
+      top: 100px;  /* Mueve el panel hacia abajo (ajusta el valor según sea necesario) */
       left: 10px;
       background-color: rgba(255, 255, 255, 0.7);
-      padding: 10px;
       border-radius: 5px;
       max-height: 400px;
+	  margin-top: 20px;
+	  flex-direction: column;
+	  gap: 10px;	  
       overflow-y: auto;
       font-family: Arial, sans-serif;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      width: 250px; /* Tamaño del panel */
-	  display: true;
+	  width: 13%; /* Asegura que todos los botones tengan el mismo ancho */
+	  padding: 10px; /* Espaciado interno */
+
+	  display: none;
     }
 
     .plant-item {
       cursor: pointer;
       padding: 5px;
       margin: 5px 0;
+	  font-size: 1em; /* Tamaño del texto */	  
       background-color: #f1f1f1;
       border-radius: 3px;
     }
@@ -151,18 +156,94 @@
 	
 	
 	
+	
+	#portada {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  height: 100vh;
+	  overflow: hidden;  /* Para asegurarnos que la imagen de fondo no cause desplazamiento */
+	  position: relative; /* Asegura que el contenido se mantenga sobre la imagen */
+	}
+
+	#portada::before {
+	  content: "";
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-image: 
+		linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), 
+		url('https://telwesa.com/wp-content/uploads/2021/10/tratamiento-de-aguas-residuales.jpg'); /* Imagen de fondo */
+	  background-size: cover;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	  z-index: -1; /* La imagen estará detrás del contenido */
+	}
+	
+	#titulo-portada h1 {
+	  font-family: 'Roboto', Arial, sans-serif; /* Fuente más moderna y profesional */
+	  font-size: 3.5em; /* Un poco más grande para más impacto */
+	  color: #45a049; /* El color verde que te gusta */
+	  font-weight: 700; /* Negrita para darle presencia */
+	  text-align: center; /* Alineado al centro */
+	  letter-spacing: 3px; /* Un poco de espaciado entre letras para darle elegancia */
+	  text-transform: uppercase; /* Todo en mayúsculas para mayor formalidad */
+	  line-height: 1.2; /* Mejorar la altura de línea para una lectura más fluida */
+	  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Sombra suave para resaltar */
+	  z-index: 1; /* Asegura que el título esté por encima de la imagen */
+	}
+	
+	#boton-ingresar {
+	  display: flex; /* Asegura que el contenido se alinee dentro del contenedor */
+	  justify-content: center; /* Centra el botón horizontalmente */
+	  align-items: center; /* Centra el botón verticalmente */
+	  z-index: 1; /* Asegura que el botón esté por encima de la imagen */
+	}
+
+	#boton-ingresar button {
+	  padding: 15px 30px;
+	  font-size: 1.5em;
+	  background-color: #4CAF50;
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  margin-top: 20px;
+	}
+
+	#boton-ingresar button:hover {
+	  background-color: #45a049;
+	}
 
 	/* Estilo para el mapa */
 	#map {
-	  visibility: visible;  /* Inicialmente oculto */
-	  opacity: 1;
+	  visibility: hidden;  /* Inicialmente oculto */
+	  opacity: 0;
 	  transition: opacity 0.5s ease, visibility 0s linear 0.5s;  /* Transición suave */
 	  height: 100vh;
 	}
 
+	/* Hacer visible el mapa cuando se ingrese */
+	#map.visible {
+	  visibility: visible;
+	  opacity: 1;
+	  transition: opacity 0.5s ease;
+	}	
   </style>
 </head>
 <body>
+
+  <!-- Portada (Pantalla de inicio) -->
+  <div id="portada" style="display: none;">
+    <div id="titulo-portada">
+      <h1>GIS <br> INVENTARIO DE AGUA PARA USO INDUSTRIAL</h1>
+    </div>
+    <div id="boton-ingresar">
+      <button onclick="ingresar()">INGRESAR</button>
+    </div>
+  </div>
 
   <div id="map"></div>
 
@@ -174,39 +255,31 @@
  
  
 <div id="plant-list">
-    <button id="toggle-panel" onclick="togglePanel()">-</button> <!-- Botón de minimizar/maximizar -->
-    <h3>Capas</h3>
-    <div id="plant-entries"></div>
-    
-    <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reuso</button> <!-- Nuevo botón -->
-	<button id="toggle-Pluvial" onclick="togglePluvial()">Pluvial</button>
+
+	<button id="toggle-Sistema-abastecimiento" onclick="toggleSistemaAbastecimiento()">Sistema de Abastecimiento Actual</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
-    <div id="subpanel-Pluvial" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Empresas</h4>
+    <div id="subpanel-Sistema-abastecimiento" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Sistema de Abastecimiento Actual</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
+        <button id="acueductos-button" onclick="toggleAcueductos()">Acueductos</button>
+		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo</button>
+		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos2()">Pozos Bajo San José</button>
     </div>	
-	<button id="btn-Actual" onclick="toggleMarkers()">Actual</button>
-	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
-    <div id="subpanel" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Marcadores</h4>
-        <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-    </div>
-	
-	<button id="toggle-Otras-Cuencas" onclick="toggleOtrasCuencas()">Otras Cuencas</button> <!-- Nuevo botón -->
+
+		<button id="toggle-Otras-Cuencas" onclick="toggleOtrasCuencas()">Otras Cuencas</button> <!-- Nuevo botón -->
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Otras-Cuencas" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Marcadores</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
     </div>	
-	
-	
-	
+
 	<button id="toggle-Agua-Subterranea" onclick="toggleAguaSubterranea()">Agua Subterránea</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Agua-Subterranea" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Agua Subterranea</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo y San Jose</button>
+		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo</button>
+		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos2()">Pozos Bajo San José</button>
 
 		<button id="toggle-Agua-Subterranea-Empresas" onclick="toggleSubterraneaEmpresas()">Empresas</button>
 		<div id="subpanel-Agua-Subterranea-Empresas" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
@@ -221,14 +294,33 @@
 		</div>			
     </div>
 
-
-
-	<button id="toggle-Sistema-abastecimiento" onclick="toggleSistemaAbastecimiento()">Sistema de Abastecimiento</button>
+    <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reuso</button> <!-- Nuevo botón -->
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
-    <div id="subpanel-Sistema-abastecimiento" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Sistema de Abastecimiento</h4>
+    <div id="subpanel-Reuso" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Marcadores</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-    </div>		
+    </div>	
+	
+	<button id="toggle-Pluvial" onclick="togglePluvial()">Pluvial</button>
+	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
+    <div id="subpanel-Pluvial" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Empresas</h4>
+        <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
+    </div>	
+
+    <button id="Agua-Marina" onclick="toggleAguaMarina()">Agua Marina</button> <!-- Nuevo botón -->
+	
+    <button id="toggle-panel" onclick="togglePanel()">-</button> <!-- Botón de minimizar/maximizar -->
+ <!--   <h3>Capas</h3>  -->
+    <div id="plant-entries"></div>
+
+	<button id="btn-Actual" onclick="toggleMarkers()">Actual</button>
+	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
+    <div id="subpanel" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+        <h4>Marcadores</h4>
+        <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
+    </div>
+	
 </div>
   
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -287,13 +379,13 @@
       { "Nombre": "Planta Depuradora de Líquidos Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558 },
       { "Nombre": "Planta Depuradora Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171 },
 	  { "Nombre": "Embalse Dique Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888 },
-	  { "Nombre": "Toma Marisoles", "Latitud": -38.668450, "Longitud": -62.120709 },
-	  { "Nombre": "Toma Empleado de Comercios", "Latitud": -38.678218, "Longitud": -62.168242 },
+	  { "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709 },
+	  { "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242 },
     ];
 
     var puntos_agua_subterranea_empresas = [
-      { "Nombre": "Unipar", "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "Caudal_de_agua_subterránea": 238000 },
-      { "Nombre": "TGS Cerri", "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "Caudal_de_agua_subterránea": 826000 }
+      { "Nombre": "Unipar", "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "Caudal_de_agua_subterránea": "650", "Conductividad": "1.101" },
+      { "Nombre": "TGS Cerri", "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "Caudal_de_agua_subterránea": "2.260" , "Conductividad": "1.021-5.080 (media=2.777)" }
     ];
 	
 	var areaEmpresas = [
@@ -307,7 +399,7 @@
 	
 
 
-
+/*
     var puntos_acuifero_principal = [
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
         {"Nombre": "2", "Latitud": -38.435057, "Longitud": -61.790536 },
@@ -325,7 +417,26 @@
 		{"Nombre": "14", "Latitud": -38.698627, "Longitud": -62.167582 },
 		{"Nombre": "15", "Latitud": -38.704485, "Longitud": -62.211018 }		
     ];	
+*/
+    var puntos_acuifero_principal = [
+        {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
+        {"Nombre": "2", "Latitud": -38.435057, "Longitud": -61.790536 },
+		{"Nombre": "3", "Latitud": -38.439360, "Longitud": -61.791222 },
+		{"Nombre": "4", "Latitud": -38.453880, "Longitud": -61.794827 },		
+		{"Nombre": "5", "Latitud": -38.508430, "Longitud": -61.823097 },		
+		{"Nombre": "6", "Latitud": -38.551764, "Longitud": -61.840408 },		
+		{"Nombre": "7", "Latitud": -38.575466, "Longitud": -61.860184 },		
+		{"Nombre": "8", "Latitud": -38.607701, "Longitud": -61.899748 },		
+		{"Nombre": "9", "Latitud": -38.620366, "Longitud": -61.920372 },		
+		{"Nombre": "10", "Latitud": -38.642969, "Longitud": -61.944828 },		
+//		{"Nombre": "11", "Latitud": -38.668011, "Longitud": -62.005709 },		
 
+		{"Nombre": "11", "Latitud": -38.669295, "Longitud": -61.998357 }, // tore 6
+		{"Nombre": "12", "Latitud": -38.676951, "Longitud": -62.041803 }, // tore 7
+		{"Nombre": "13", "Latitud": -38.686940, "Longitud": -62.098953 }, // tore 8
+		{"Nombre": "14", "Latitud": -38.696896, "Longitud": -62.156075 }, // tore 9
+		{"Nombre": "15", "Latitud": -38.704485, "Longitud": -62.211018 }		
+    ];
 	
     var puntos_acuifero_principal_a_cabildo = [
         {"Nombre": "1", "Latitud": -38.516780, "Longitud": -61.851053 },
@@ -341,10 +452,9 @@
 		{"Nombre": "4", "Latitud": -38.750772, "Longitud": -62.114719 }
     ];		
 	
-	
     var puntos_acuifero_principal_a_toma_marisoles = [
-        {"Nombre": "1", "Latitud": -38.700964, "Longitud": -62.097774},
-		{"Nombre": "2", "Latitud": -38.669396, "Longitud": -62.120544 },
+        {"Nombre": "1", "Latitud": -38.669295, "Longitud": -61.998357},
+		{"Nombre": "2", "Latitud": -38.674454, "Longitud": -62.042284 },
 		{"Nombre": "3", "Latitud": -38.668450, "Longitud": -62.120709 }
     ];		
 
@@ -361,22 +471,63 @@
 
 
     var puntos_Otras_Cuencas = [
-		{ "Nombre": "Toma Marisoles", "Latitud": -38.668450, "Longitud": -62.120709 },
-		{ "Nombre": "Toma Empleado de Comercios", "Latitud": -38.678218, "Longitud": -62.168242 },
-		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676 }
+		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
+		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" }
     ];	
 	
+    var puntos_Plantas_pri_sec_cuenca = [
+		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558, "Caudal": "84.000" },
+		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171, "Caudal": "12.000" },
+    ];
 
+	var Plantas_pri_sec_cuencaMarkers = {}; // Objeto para guardar los marcadores
+	var Plantas_pri_sec_cuencaVisible = false; // Estado de visibilidad inicial
+
+	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
+	puntos_Plantas_pri_sec_cuenca.forEach(function(punto) {
+	  var marker = L.marker([punto.Latitud, punto.Longitud])
+//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal de diseño (m<sup>3</sup>/d): " + punto.Caudal);
+		
+	  // Guardar el marcador en un objeto para futura interacción
+	  Plantas_pri_sec_cuencaMarkers[punto.Nombre] = marker;
+
+	  // Mostrar la información al pasar el mouse (hover)
+	  marker.on('mouseover', function() {
+		marker.openPopup();
+	  });
+
+	  // Comportamiento al hacer click para mantener el pop-up abierto
+	  marker.on('click', function() {
+		if (marker.isPopupOpen()) {
+		  marker.closePopup();
+		} else {
+		  marker.openPopup();
+		}
+	  });
+	});
 	
 	var OtrasCuencasMarkers = {}; // Objeto para guardar los marcadores
 	var OtrasCuencasmarkersVisible = false; // Estado de visibilidad inicial
-        
+
+    var puntos_Otras_Cuencas = [
+		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
+		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" }
+    ];	
+	
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
 	puntos_Otras_Cuencas.forEach(function(punto) {
-	  var marker = L.marker([punto.Latitud, punto.Longitud])
-//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
-		.bindPopup("<b>" + punto.Nombre);
-		
+		if (punto.Nombre != "Puente Canessa") {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.Caudal);
+		} else {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal potencialmente disponible (m<sup>3</sup>/d): " + punto.Caudal);		
+		}
 	  // Guardar el marcador en un objeto para futura interacción
 	  OtrasCuencasMarkers[punto.Nombre] = marker;
 
@@ -394,18 +545,77 @@
 		}
 	  });
 	});
+
+
+
+    var puntos_Sistema_de_Abastecimiento_Actual = [
+      { "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108, "Caudal": "192.000" },
+
+      { "Nombre": "Planta Potabilizadora Modular", "Latitud": -38.704903, "Longitud": -62.211027, "Caudal": "28.800" },
+	  
+      { "Nombre": "Planta Potabilizadora Grunbein", "Latitud": -38.75089687, "Longitud": -62.11355741, "Caudal": "48.000" },
+	  
+//      { "Nombre": "Planta Depuradora de Líquidos Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558 },
+//      { "Nombre": "Planta Depuradora Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171 },
+	  
+	  { "Nombre": "Embalse Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888, "CaudalDisponible": "259.000", "CaudalCaptado": "240.000" },	  
+	  { "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
+	  { "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+    ];
 	
+	var SistemaAbastecimientoMarkers = {}; // Objeto para guardar los marcadores
+	var SistemaAbastecimientoMarkersVisible = false; // Estado de visibilidad inicial
+	
+	
+	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
+	puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
+		if (punto.Nombre == "Planta Potabilizadora Patagonia" || punto.Nombre == "Planta Potabilizadora Grunbein" || punto.Nombre == "Planta Potabilizadora Modular") {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal potabilizado (m<sup>3</sup>/d): " + punto.Caudal);
+		} else if (punto.Nombre == "Embalse Paso de las Piedras") {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.CaudalDisponible + "</b><br>" + "Caudal captado (m<sup>3</sup>/d): " + punto.CaudalCaptado);		
+		} else {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.Caudal);								
+		}
+	  // Guardar el marcador en un objeto para futura interacción
+	  SistemaAbastecimientoMarkers[punto.Nombre] = marker;
+
+	  // Mostrar la información al pasar el mouse (hover)
+	  marker.on('mouseover', function() {
+		marker.openPopup();
+	  });
+
+	  // Comportamiento al hacer click para mantener el pop-up abierto
+	  marker.on('click', function() {
+		if (marker.isPopupOpen()) {
+		  marker.closePopup();
+		} else {
+		  marker.openPopup();
+		}
+	  });
+	});
+
+
+
+
+
     var puntos_acuifero_secundario1 = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
-
-		{"Nombre": "7", "Latitud": -38.667185, "Longitud": -61.945868 },
+        {"Nombre": "1", "Latitud": -38.709558, "Longitud": -62.066274 },
+		{"Nombre": "7", "Latitud": -38.661654, "Longitud": -61.953449 },
 		{"Nombre": "7", "Latitud": -38.572388, "Longitud": -61.853625 },
 		{"Nombre": "7", "Latitud": -38.545093, "Longitud": -61.831368 },
-		{"Nombre": "7", "Latitud": -38.511626, "Longitud": -61.805948 },		
+		
+		{"Nombre": "7", "Latitud": -38.511597, "Longitud": -61.806357 },		
 		{"Nombre": "1", "Latitud": -38.485623, "Longitud": -61.792469 },
         {"Nombre": "2", "Latitud": -38.478446, "Longitud": -61.791005 },
 		{"Nombre": "3", "Latitud": -38.454210, "Longitud": -61.793201 },
-		{"Nombre": "4", "Latitud": -38.447713, "Longitud": -61.788042 },
+//		{"Nombre": "4", "Latitud": -38.447713, "Longitud": -61.788042 },
 		{"Nombre": "5", "Latitud": -38.439239, "Longitud": -61.788766 },
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
 	
@@ -413,15 +623,16 @@
 
     var puntos_acuifero_secundario2 = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
+        {"Nombre": "1", "Latitud": -38.711316, "Longitud": -62.064643 },
 
-		{"Nombre": "7", "Latitud": -38.670090, "Longitud": -61.942263 },
+		{"Nombre": "7", "Latitud": -38.663832, "Longitud": -61.951261 },
 		{"Nombre": "7", "Latitud": -38.572987, "Longitud": -61.852542 },		
 		{"Nombre": "7", "Latitud": -38.546433, "Longitud": -61.829213 },
 		{"Nombre": "7", "Latitud": -38.511934, "Longitud": -61.805098 },		
 		{"Nombre": "1", "Latitud": -38.485650, "Longitud": -61.790866 },
         {"Nombre": "2", "Latitud": -38.478610, "Longitud": -61.789576 },
 		{"Nombre": "3", "Latitud": -38.454756, "Longitud": -61.791667 },
-		{"Nombre": "4", "Latitud": -38.447822, "Longitud": -61.785393 },
+//		{"Nombre": "4", "Latitud": -38.447822, "Longitud": -61.785393 },
 		{"Nombre": "5", "Latitud": -38.439799, "Longitud": -61.787596 },
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
 	
@@ -429,15 +640,18 @@
 
     var puntos_acuifero_secundario3 = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
+        {"Nombre": "1", "Latitud": -38.712907, "Longitud": -62.061982 },
 
-		{"Nombre": "7", "Latitud": -38.672026, "Longitud": -61.940234 },		
-		{"Nombre": "7", "Latitud": -38.573462, "Longitud": -61.851538 },		
+		{"Nombre": "7", "Latitud": -38.665910, "Longitud": -61.948042 },
+		
+		{"Nombre": "7", "Latitud": -38.573854, "Longitud": -61.851289 },
+		
 		{"Nombre": "7", "Latitud": -38.547997, "Longitud": -61.826565 },
 		{"Nombre": "7", "Latitud": -38.512522, "Longitud": -61.804161 },
 		{"Nombre": "1", "Latitud": -38.485650, "Longitud": -61.789471 },
         {"Nombre": "2", "Latitud": -38.478773, "Longitud": -61.788391 },
 		{"Nombre": "3", "Latitud": -38.455384, "Longitud": -61.790238 },
-		{"Nombre": "4", "Latitud": -38.447877, "Longitud": -61.783162 },
+//		{"Nombre": "4", "Latitud": -38.447877, "Longitud": -61.783162 },
 		{"Nombre": "5", "Latitud": -38.440640, "Longitud": -61.786230 },
         {"Nombre": "1", "Latitud": -38.419458, "Longitud": -61.763070 },
 	
@@ -463,10 +677,10 @@
 	
     var puntos_planta_grunbein_a_punta = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
-		{"Nombre": "1", "Latitud": -38.752445, "Longitud": -62.112443 },
-		{"Nombre": "1", "Latitud": -38.758519, "Longitud": -62.117207 },
-		{"Nombre": "1", "Latitud": -38.763505, "Longitud": -62.110770 },
-		{"Nombre": "1", "Latitud": -38.772902, "Longitud": -62.122630 },
+//		{"Nombre": "1", "Latitud": -38.752445, "Longitud": -62.112443 },
+//		{"Nombre": "1", "Latitud": -38.758519, "Longitud": -62.117207 },
+//		{"Nombre": "1", "Latitud": -38.763505, "Longitud": -62.110770 },
+//		{"Nombre": "1", "Latitud": -38.772902, "Longitud": -62.122630 },
 		{"Nombre": "1", "Latitud": -38.774513, "Longitud": -62.117145 },
 		{"Nombre": "1", "Latitud": -38.819502, "Longitud": -62.105249 },
 		{"Nombre": "1", "Latitud": -38.829333, "Longitud": -62.097923 },
@@ -613,30 +827,30 @@
 	var poligonoAcuifero;
 	var poligonoVisible = false; // Estado de visibilidad del polígono
 
+
+	var polygon = false;
 	
-	function toggleSistemaAbastecimiento() {
-		var btnSistemaAbastecimiento = document.getElementById("toggle-Sistema-abastecimiento");
-		if (!poligonoVisible) {
-		
-			
-/*		
-		  // Mostrar la información al pasar el mouse (hover)
-		  marker_cartel.on('mouseover', function() {
-			marker_cartel.openPopup();
-		  });
+    // Mostrar el polígono al hacer clic en "Acueductos"
+    function toggleAcueductos() {
+	  var AcueductosButton = document.getElementById("acueductos-button");	  
+      if (!polygon) {
+	  
+		    
 
-		  // Comportamiento al hacer click para mantener el pop-up abierto
-		  marker_cartel.on('click', function() {
-			if (marker_cartel.isPopupOpen()) {
-			  marker_cartel.closePopup();
-			} else {
-			  marker_cartel.openPopup();
-			}
-		  });
-*/
+			if (!pozosVisible) {
+				toggleSubterraneaPozos()
+					
+			}				
+
+			if (!pozosVisible2) {
+				toggleSubterraneaPozos2()
+					
+			}		
 
 
-		
+	  
+			AcueductosButton.classList.toggle("active");
+	  
 			// Convertir los puntos en un arreglo de coordenadas [lat, lng]
 			var coordenadas = puntos_acuifero_principal.map(function(punto) {
 				return [punto.Latitud, punto.Longitud];
@@ -748,7 +962,496 @@
 				weight: 4,
 				fillOpacity: 0.4
 			}).addTo(map);
+			
+			// Vincular popup
+			poligonoAcuifero.bindPopup("<b>Acueducto principal</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "1700-1500 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "259.000", {autoPan: false});
+			
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero4 = L.polyline(coordenadas4, {
+				color: 'purple', // Puedes personalizar el color
+				weight: 4,
+				fillOpacity: 0.4
+			}).addTo(map);			
+
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero5 = L.polyline(coordenadas5, {
+				color: 'purple', // Puedes personalizar el color
+				weight: 4,
+				fillOpacity: 0.4
+			}).addTo(map);
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero6 = L.polyline(coordenadas6, {
+				color: 'green', // Puedes personalizar el color
+				weight: 2,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Vincular popup
+			poligonoAcuifero6.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Acero" + "</b><br>" + "457-381 mm" + "</b><br>" + "Tramo fuera de servicio" + "</b><br>" + "(bypass a HF)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+
+			
+
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero7 = L.polyline(coordenadas7, {
+				color: 'green', // Puedes personalizar el color
+				weight: 2,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Vincular popup
+			poligonoAcuifero7.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hierro fundido (HF)" + "</b><br>" + "457-381 mm" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "7.200", {autoPan: false});
+						
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero8 = L.polyline(coordenadas8, {
+				color: 'green', // Puedes personalizar el color
+				weight: 3,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Vincular popup
+			poligonoAcuifero8.bindPopup("<b>Acueducto secundario</b>" + "</b><br>" + "Hormigón" + "</b><br>" + "600 mm" + "</b><br>" + "En reparación" + "</b><br>" + "(próximamente habilitado)" + "</b><br>" + "Caudal de conducción (m<sup>3</sup>/d): " + "16.800", {autoPan: false});
+						
 /*			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero9 = L.polyline(coordenadas9, {
+				color: 'darkgreen', // Puedes personalizar el color
+				weight: 4,
+				fillOpacity: 0.4
+			}).addTo(map);
+*/
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero10 = L.polyline(coordenadas10, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 4,
+				fillOpacity: 0.4
+			}).addTo(map);
+			
+			poligonoAcuifero11 = L.polyline(coordenadas11, {
+				color: 'purple', // Puedes personalizar el color
+				weight: 4,
+				fillOpacity: 0.4
+			}).addTo(map);	
+
+			poligonoAcuifero12 = L.polyline(coordenadas12, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			poligonoAcuifero13 = L.polyline(coordenadas13, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			poligonoAcuifero14 = L.polyline(coordenadas14, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			poligonoAcuifero15 = L.polyline(coordenadas15, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			poligonoAcuifero16 = L.polyline(coordenadas16, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			poligonoAcuifero17 = L.polyline(coordenadas17, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);			
+/*
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero18 = L.polyline(coordenadas18, {
+				color: 'black', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero19 = L.polyline(coordenadas19, {
+				color: 'black', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);			
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero20 = L.polyline(coordenadas20, {
+				color: 'black', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);				
+			
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero21 = L.polyline(coordenadas21, {
+				color: 'black', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+*/
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero22 = L.polyline(coordenadas22, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero23 = L.polyline(coordenadas23, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero24 = L.polyline(coordenadas24, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero25 = L.polyline(coordenadas25, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 1,
+				fillOpacity: 0.4
+			}).addTo(map);
+
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero26 = L.polyline(coordenadas26, {
+				color: 'blue', // Puedes personalizar el color
+				weight: 4,
+				fillOpacity: 0.4
+			}).addTo(map);
+			
+			// Agregar el marcador con el div personalizado al mapa
+//			marcador_cartel = L.marker([carteles_acueductos[0].Latitud, carteles_acueductos[0].Longitud], { icon: cartelDiv }).addTo(map);
+//			marcador_cartel2 = L.marker([carteles_acueductos[1].Latitud, carteles_acueductos[1].Longitud], { icon: cartelDiv2 }).addTo(map);
+//			marcador_cartel3 = L.marker([carteles_acueductos[2].Latitud, carteles_acueductos[2].Longitud], { icon: cartelDiv3 }).addTo(map);
+//			marcador_cartel4 = L.marker([carteles_acueductos[3].Latitud, carteles_acueductos[3].Longitud], { icon: cartelDiv4 }).addTo(map);
+			
+      } else {
+	  	  
+			AcueductosButton.classList.remove("active");  // Remover la clase 'active'
+			AcueductosButton.classList.add("nonactive");  // Añadir la clase 'nonactive'
+			
+			// Si el polígono ya está visible, eliminarlo del mapa
+			map.removeLayer(poligonoAcuifero);
+//			map.removeLayer(poligonoAcuifero2);
+//			map.removeLayer(poligonoAcuifero3);
+			map.removeLayer(poligonoAcuifero4);
+			map.removeLayer(poligonoAcuifero5);
+			map.removeLayer(poligonoAcuifero6);
+			map.removeLayer(poligonoAcuifero7);
+			map.removeLayer(poligonoAcuifero8);
+//			map.removeLayer(poligonoAcuifero9);
+			map.removeLayer(poligonoAcuifero10);
+			map.removeLayer(poligonoAcuifero11);	
+			map.removeLayer(poligonoAcuifero12);
+			map.removeLayer(poligonoAcuifero13);
+			map.removeLayer(poligonoAcuifero14);
+			map.removeLayer(poligonoAcuifero15);
+			map.removeLayer(poligonoAcuifero16);
+			map.removeLayer(poligonoAcuifero17);
+//			map.removeLayer(poligonoAcuifero18);		
+//			map.removeLayer(poligonoAcuifero19);
+//			map.removeLayer(poligonoAcuifero20);			
+//			map.removeLayer(poligonoAcuifero21);
+			map.removeLayer(poligonoAcuifero22);
+			map.removeLayer(poligonoAcuifero23);
+			map.removeLayer(poligonoAcuifero24);
+			map.removeLayer(poligonoAcuifero25);
+			map.removeLayer(poligonoAcuifero26);
+			
+//			map.removeLayer(marcador_cartel);
+//			map.removeLayer(marcador_cartel2);
+//			map.removeLayer(marcador_cartel3);
+//			map.removeLayer(marcador_cartel4);	  
+
+			if (pozosVisible) {
+				toggleSubterraneaPozos()
+					
+			}				
+
+			if (pozosVisible2) {
+				toggleSubterraneaPozos2()
+					
+			}
+
+//			AcueductosButton.classList.remove("active");  // Remover la clase 'active'
+//			AcueductosButton.classList.add("nonactive");  // Añadir la clase 'nonactive'		
+			
+
+	  }
+	  	polygon = !polygon;
+    }
+	
+	
+	
+
+	function toggleSistemaAbastecimiento() {
+		var btnSistemaAbastecimiento = document.getElementById("toggle-Sistema-abastecimiento");
+		var subpanelSistemaAbastecimiento = document.getElementById("subpanel-Sistema-abastecimiento");
+		var AcueductosButton = document.getElementById("acueductos-button");		
+		if (!poligonoVisible) {
+		
+	
+
+
+			
+			for (var nombre in SistemaAbastecimientoMarkers) {
+			  if (SistemaAbastecimientoMarkers.hasOwnProperty(nombre)) {
+				SistemaAbastecimientoMarkers[nombre].addTo(map);
+			  }
+			}
+			subpanelSistemaAbastecimiento.style.display = "block"; // Mostrar el subpanel			
+
+			// Crear botones para cada marcador en el subpanel
+			subpanelSistemaAbastecimiento.innerHTML = "<h4> Sistema de Abastecimiento Actual </h4>"; // Limpiar el contenido existente y agregar el título
+			
+			
+			// Crear el botón Acueductos dinámicamente
+			var acueductosButton = document.createElement("button");
+			acueductosButton.id = "acueductos-button";
+			acueductosButton.innerHTML = "Acueductos";
+			acueductosButton.style.display = "block"; // Opcional: mostrar en una nueva línea
+			acueductosButton.style.marginBottom = "5px"; // Espaciado opcional
+			acueductosButton.onclick = function () {
+				toggleAcueductos(); // Llamar a la función específica de Acueductos
+			};
+			subpanelSistemaAbastecimiento.appendChild(acueductosButton);			
+			
+			var PozosCabildoButton = document.createElement("button");
+			PozosCabildoButton.id = "toggle-Agua-Subterranea-Pozos";
+			PozosCabildoButton.innerHTML = "Pozos Cabildo";
+			PozosCabildoButton.style.display = "block"; // Opcional: mostrar en una nueva línea
+			PozosCabildoButton.style.marginBottom = "5px"; // Espaciado opcional
+			PozosCabildoButton.onclick = function () {
+				toggleSubterraneaPozos(); // Llamar a la función específica de Acueductos
+			};
+			subpanelSistemaAbastecimiento.appendChild(PozosCabildoButton);			
+			
+			var PozosBajoSanJoseButton = document.createElement("button");
+			PozosBajoSanJoseButton.id = "toggle-Agua-Subterranea-Pozos2";
+			PozosBajoSanJoseButton.innerHTML = "Pozos Bajo San José";
+			PozosBajoSanJoseButton.style.display = "block"; // Opcional: mostrar en una nueva línea
+			PozosBajoSanJoseButton.style.marginBottom = "5px"; // Espaciado opcional
+			PozosBajoSanJoseButton.onclick = function () {
+				toggleSubterraneaPozos2(); // Llamar a la función específica de Acueductos
+			};
+			subpanelSistemaAbastecimiento.appendChild(PozosBajoSanJoseButton);			
+				
+			
+			puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
+			  var SistemaAbastecimientomarkerButton = document.createElement("button");
+			  SistemaAbastecimientomarkerButton.classList.add("marker-Button"); // Asignar clase		  
+			  SistemaAbastecimientomarkerButton.innerHTML = punto.Nombre;
+			  SistemaAbastecimientomarkerButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
+			  SistemaAbastecimientomarkerButton.style.marginBottom = "5px"; // Espacio entre los botones
+			  SistemaAbastecimientomarkerButton.onclick = function() {
+				map.flyTo([punto.Latitud, punto.Longitud], 14, {
+				animate: true,
+				duration: 2.0
+				}); // Ajusta el nivel de zoom según sea necesario
+			  };
+			  subpanelSistemaAbastecimiento.appendChild(SistemaAbastecimientomarkerButton);
+			});
+										
+			poligonoVisible = true; // Cambiar el estado a visible
+			btnSistemaAbastecimiento.classList.toggle("active");
+		} else {
+		
+			if (polygon) {
+				toggleAcueductos()
+					
+			}				
+
+			if (pozosVisible) {
+				toggleSubterraneaPozos()
+					
+			}				
+
+			if (pozosVisible2) {
+				toggleSubterraneaPozos2()
+					
+			}				
+			
+			// Si los marcadores están visibles, eliminarlos del mapa
+			for (var nombre in SistemaAbastecimientoMarkers) {
+			  if (SistemaAbastecimientoMarkers.hasOwnProperty(nombre)) {	  
+				map.removeLayer(SistemaAbastecimientoMarkers[nombre]);
+			  }
+			}
+			subpanelSistemaAbastecimiento.style.display = "none"; // Ocultar el subpanel
+
+
+			
+			poligonoVisible = false; // Cambiar el estado a no visible
+			btnSistemaAbastecimiento.classList.remove("active");  // Remover la clase 'active'
+		    btnSistemaAbastecimiento.classList.add("nonactive");  // Añadir la clase 'nonactive'
+			
+
+		}
+	}
+
+
+	
+/*
+	function toggleSistemaAbastecimiento() {
+		var btnSistemaAbastecimiento = document.getElementById("toggle-Sistema-abastecimiento");
+		var subpanelSistemaAbastecimiento = document.getElementById("subpanel-Sistema-abastecimiento");
+		if (!poligonoVisible) {
+		
+			for (var nombre in SistemaAbastecimientoMarkers) {
+			  if (SistemaAbastecimientoMarkers.hasOwnProperty(nombre)) {
+				SistemaAbastecimientoMarkers[nombre].addTo(map);
+			  }
+			}
+			subpanelSistemaAbastecimiento.style.display = "block"; // Mostrar el subpanel			
+
+			// Crear botones para cada marcador en el subpanel
+			subpanelSistemaAbastecimiento.innerHTML = "<h4> Sistema de Abastecimiento Actual </h4>"; // Limpiar el contenido existente y agregar el título
+			puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
+			  var SistemaAbastecimientomarkerButton = document.createElement("button");
+			  SistemaAbastecimientomarkerButton.classList.add("marker-Button"); // Asignar clase		  
+			  SistemaAbastecimientomarkerButton.innerHTML = punto.Nombre;
+			  SistemaAbastecimientomarkerButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
+			  SistemaAbastecimientomarkerButton.style.marginBottom = "5px"; // Espacio entre los botones
+			  SistemaAbastecimientomarkerButton.onclick = function() {
+				map.flyTo([punto.Latitud, punto.Longitud], 14, {
+				animate: true,
+				duration: 2.0
+				}); // Ajusta el nivel de zoom según sea necesario
+			  };
+			  subpanelSistemaAbastecimiento.appendChild(SistemaAbastecimientomarkerButton);
+			});
+							
+
+			// Convertir los puntos en un arreglo de coordenadas [lat, lng]
+			var coordenadas = puntos_acuifero_principal.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+			
+			var coordenadas2 = puntos_acuifero_principal_a_cabildo.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+
+			var coordenadas3 = puntos_acuifero_principal_derivacion_grunbein.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+						
+			var coordenadas4 = puntos_acuifero_principal_a_toma_marisoles.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});			
+			
+			var coordenadas5 = puntos_acuifero_principal_a_toma_empleado_de_comercios.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+
+			var coordenadas6 = puntos_acuifero_secundario1.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});				
+
+			var coordenadas7 = puntos_acuifero_secundario2.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+
+			var coordenadas8 = puntos_acuifero_secundario3.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+
+			var coordenadas9 = puntos_patagonia_a_polo.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+			
+			var coordenadas10 = puntos_planta_grunbein_a_punta.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+
+			var coordenadas11 = puntos_acuifero_principal_a_toma_marisoles2.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+
+			var coordenadas12 = puntos_2pozosSanJose_a_acueducto_sec.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+
+			var coordenadas13 = puntos_2pozosSanJose_a_acueducto_sec2.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+
+			var coordenadas14 = puntos_3pozosSanJose_a_acueducto_sec.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+
+			var coordenadas15 = puntos_3pozosSanJose_a_acueducto_sec2.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+
+			var coordenadas16 = puntos_3pozosSanJose_a_acueducto_sec3.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+
+			var coordenadas17 = puntos_1pozosSanJose_a_acueducto_sec.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});			
+
+			var coordenadas18 = puntos_acueducto_principal_indicaciones.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+			
+			var coordenadas19 = puntos_acueducto_secundario_indicaciones.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+			
+			var coordenadas20 = puntos_acueducto_secundario_indicaciones2.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});				
+
+			var coordenadas21 = puntos_acueducto_secundario_indicaciones3.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+
+			var coordenadas22 = puntos_arroyo_sauce_grande_tanque.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+	
+			var coordenadas23 = puntos_union_5_pozos.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});
+	
+			var coordenadas24 = puntos_union_3_pozos.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});	
+	
+			var coordenadas25 = puntos_union_1_pozos.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});		
+	
+			var coordenadas26 = puntos_patagonia_a_grunbein.map(function(punto) {
+				return [punto.Latitud, punto.Longitud];
+			});		
+	
+			// Crear y agregar el polígono al mapa
+			poligonoAcuifero = L.polyline(coordenadas, {
+				color: 'red', // Puedes personalizar el color
+				weight: 4,
+				fillOpacity: 0.4
+			}).addTo(map);
+*/			
+			
+/*//			
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero2 = L.polyline(coordenadas2, {
 				color: 'red', // Puedes personalizar el color
@@ -762,7 +1465,9 @@
 				weight: 4,
 				fillOpacity: 0.4
 			}).addTo(map);	
-*/			
+*///			
+
+/*
 			// Crear y agregar el polígono al mapa
 			poligonoAcuifero4 = L.polyline(coordenadas4, {
 				color: 'purple', // Puedes personalizar el color
@@ -960,18 +1665,29 @@
 			map.removeLayer(marcador_cartel2);
 			map.removeLayer(marcador_cartel3);
 			map.removeLayer(marcador_cartel4);
+		
+				
+			// Si los marcadores están visibles, eliminarlos del mapa
+			for (var nombre in SistemaAbastecimientoMarkers) {
+			  if (SistemaAbastecimientoMarkers.hasOwnProperty(nombre)) {	  
+				map.removeLayer(SistemaAbastecimientoMarkers[nombre]);
+			  }
+			}
+			subpanelSistemaAbastecimiento.style.display = "none"; // Ocultar el subpanel
+
+
 			
 			poligonoVisible = false; // Cambiar el estado a no visible
 			btnSistemaAbastecimiento.classList.remove("active");  // Remover la clase 'active'
 		    btnSistemaAbastecimiento.classList.add("nonactive");  // Añadir la clase 'nonactive'
 		}
 	}
-
+*/
 
 
 
 	
-    var puntos_pozos_cabildo_y_san_jose = [
+    var puntos_pozo_cabildo = [
         {"Nombre": "1", "Latitud": -38.484677, "Longitud": -61.827227 },
 		{"Nombre": "2", "Latitud": -38.485265, "Longitud": -61.827742 },
 		{"Nombre": "3", "Latitud": -38.485920, "Longitud": -61.828536 },	
@@ -988,8 +1704,10 @@
 		{"Nombre": "14", "Latitud": -38.493982, "Longitud": -61.839651 },	
 		{"Nombre": "15", "Latitud": -38.493277, "Longitud": -61.840574 },
 		{"Nombre": "16", "Latitud": -38.495410, "Longitud": -61.839715 },
-		{"Nombre": "31", "Latitud": -38.481186, "Longitud": -61.796792 },	
 	
+	];
+	
+    var puntos_pozo_san_jose = [	
 		{"Nombre": "17", "Latitud": -38.471920, "Longitud": -61.795540 },
 		{"Nombre": "18", "Latitud": -38.472273, "Longitud": -61.793909 },
 		{"Nombre": "19", "Latitud": -38.473365, "Longitud": -61.793952 },
@@ -998,7 +1716,7 @@
 		{"Nombre": "22", "Latitud": -38.476557, "Longitud": -61.797127 },
 		{"Nombre": "23", "Latitud": -38.478844, "Longitud": -61.797173 },
 		{"Nombre": "24", "Latitud": -38.481837, "Longitud": -61.792894 },
-		
+		{"Nombre": "31", "Latitud": -38.481186, "Longitud": -61.796792 },		
 		{"Nombre": "25", "Latitud": -38.487778, "Longitud": -61.788247 },	
 		{"Nombre": "26", "Latitud": -38.490172, "Longitud": -61.788360 },	
 		{"Nombre": "27", "Latitud": -38.490438, "Longitud": -61.791078 },	
@@ -1010,6 +1728,8 @@
 	var pozosMarkers = {}; // Objeto para guardar los marcadores
 	var pozosVisible = false; // Estado de visibilidad inicial
 	
+	var pozosMarkers2 = {}; // Objeto para guardar los marcadores
+	var pozosVisible2 = false; // Estado de visibilidad inicial
 
 	// Crear un icono pequeño
 	var smallMarker = L.divIcon({
@@ -1020,14 +1740,20 @@
 	});
 
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
-	puntos_pozos_cabildo_y_san_jose.forEach(function(punto) {
+	puntos_pozo_cabildo.forEach(function(punto) {
 	  var marker = L.marker([punto.Latitud, punto.Longitud], { icon: smallMarker });
 
 	  // Guardar el marcador en un objeto para futura interacción
 	  pozosMarkers[punto.Nombre] = marker;
 	});	
 	
-	
+	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
+	puntos_pozo_san_jose.forEach(function(punto) {
+	  var marker = L.marker([punto.Latitud, punto.Longitud], { icon: smallMarker });
+
+	  // Guardar el marcador en un objeto para futura interacción
+	  pozosMarkers2[punto.Nombre] = marker;
+	});		
 	
       // Los puntos de la variable puntos_area_primera_cuenca
     var puntos_area_primera_cuenca = [
@@ -1148,7 +1874,7 @@
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
 	puntos_agua_subterranea_empresas.forEach(function(punto) {
 	  var marker = L.marker([punto.Latitud, punto.Longitud])
-		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal Agua Subterránea (m<sup>3</sup>/año): " + punto.Caudal_de_agua_subterránea);
+		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal captado (m<sup>3</sup>/d): " + punto.Caudal_de_agua_subterránea + "</b><br>" + "Conductividad (uS/cm): " + punto.Conductividad);
 
 	  // Guardar el marcador en un objeto para futura interacción
 	  Empresas_Markers[punto.Nombre] = marker;
@@ -1171,6 +1897,7 @@
 	
 	function toggleSubterraneaPozos() {
 	  var btnPozos = document.getElementById("toggle-Agua-Subterranea-Pozos");
+	  
 	  if (pozosVisible) {
 		// Si los marcadores están visibles, eliminarlos del mapa
 		for (var nombre in pozosMarkers) {
@@ -1195,7 +1922,40 @@
 	
 	}
 	
-	toggleMarkers()
+	function toggleSubterraneaPozos2() {
+	  var btnPozos2 = document.getElementById("toggle-Agua-Subterranea-Pozos2");
+	  
+	  if (pozosVisible2) {
+		// Si los marcadores están visibles, eliminarlos del mapa
+		for (var nombre in pozosMarkers2) {
+		  if (pozosMarkers2.hasOwnProperty(nombre)) {
+		    map.removeLayer(pozosMarkers2[nombre]);
+		  }
+		}
+		  btnPozos2.classList.remove("active");  // Remover la clase 'active'
+		  btnPozos2.classList.add("nonactive");  // Añadir la clase 'nonactive'	
+	  } else {
+		btnPozos2.classList.toggle("active");
+		// Si los marcadores están ocultos, agregarlos al mapa
+		for (var nombre in pozosMarkers2) {
+		  if (pozosMarkers2.hasOwnProperty(nombre)) {
+			pozosMarkers2[nombre].addTo(map);
+		  }
+		}
+	  }
+
+	  // Cambiar el estado de visibilidad
+	  pozosVisible2 = !pozosVisible2;	
+	
+	}
+
+
+//	  var btnPozos2 = document.getElementById("toggle-Agua-Subterranea-Pozos2");
+	  
+	  
+//		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo</button>
+//		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos()">Pozos Bajo San José</button>	  
+
 	
 	// Función para manejar la visibilidad de los marcadores y el subpanel
 	function toggleMarkers() {
@@ -1237,19 +1997,8 @@
 		  };
 		  subpanel.appendChild(markerButton);
 		});
-		
-    // Aquí se simula el clic en el marcador específico "Planta Patagonia"
-    var plantaPatagonia = puntos.find(p => p.Nombre === "Planta Potabilizadora Patagonia");
-    if (plantaPatagonia) {
-      // Si se encuentra, centrar el mapa en el marcador de la Planta Patagonia
-      map.flyTo([plantaPatagonia.Latitud, plantaPatagonia.Longitud], 14, {
-        animate: true,
-        duration: 2.0
-      });
-    }		
-		
 	  }
-	
+
 	  // Cambiar el estado de visibilidad
 	  markersVisible = !markersVisible;
 	}
@@ -1307,12 +2056,12 @@
 	
 	
 	var areaEmpresas = [
-		{"Latitud": -38.785531834725035, "Longitud": -62.281728805807646, "tamaño": 209.6425529, "Nombre": "Profertil", "Caudal_Recolectado": 28743},  //Profertil
-		{"Latitud": -38.78293923077242, "Longitud": -62.290494264514145, "tamaño": 95.60857702, "Nombre": "Mega", "Caudal_Recolectado": 5978 },   //Mega
-		{"Latitud": -38.76844400179251, "Longitud": -62.286881328049546, "tamaño": 206.8332662, "Nombre": "Dow", "Caudal_Recolectado": 27978 },  //Dow
-		{"Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "tamaño": 133.4765897, "Nombre": "TGS Cerri", "Caudal_Recolectado": 11652 },	//TGS Cerri
-		{"Latitud": -38.774332782559966, "Longitud": -62.299820304552654, "tamaño": 47.31807266, "Nombre": "TGS Galván", "Caudal_Recolectado": 1464	 },	//TGS Galván
-		{"Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 209.6425529, "Nombre": "Unipar", "Caudal_Recolectado": 25911 }	//Unipar
+		{"Latitud": -38.785531834725035, "Longitud": -62.281728805807646, "tamaño": 209.6425529, "Nombre": "Profertil", "Caudal_Recolectado": 79},  //Profertil
+		{"Latitud": -38.78293923077242, "Longitud": -62.290494264514145, "tamaño": 95.60857702, "Nombre": "Mega", "Caudal_Recolectado": 16 },   //Mega
+		{"Latitud": -38.76844400179251, "Longitud": -62.286881328049546, "tamaño": 206.8332662, "Nombre": "Dow", "Caudal_Recolectado": 77 },  //Dow
+		{"Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "tamaño": 133.4765897, "Nombre": "TGS Cerri", "Caudal_Recolectado": 32 },	//TGS Cerri
+		{"Latitud": -38.774332782559966, "Longitud": -62.299820304552654, "tamaño": 47.31807266, "Nombre": "TGS Galván", "Caudal_Recolectado": 4	 },	//TGS Galván
+		{"Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 209.6425529, "Nombre": "Unipar", "Caudal_Recolectado": 71 }	//Unipar
 	];
 
 	// Variable para controlar el estado del botón (si está activo o no)
@@ -1370,7 +2119,20 @@
 	
     // Crear lista interactiva de plantas
     var plantEntries = document.getElementById("plant-entries");
-	
+
+	ingresar()
+
+	// Función para ocultar la portada y mostrar el mapa
+	function ingresar() {
+	  document.getElementById("portada").style.display = "none";  // Ocultar la portada
+	  var mapa = document.getElementById("map");
+	  mapa.classList.add("visible");  // Mostrar el mapa añadiendo la clase
+	  
+	  // Mostrar el panel de las plantas
+	  document.getElementById("plant-list").style.display = "flex";  // Hacer visible el panel
+	  document.getElementById("boton-de-descarga").style.display = "block";  // Hacer visible el boton de descarga
+	  
+	}	
 	
     // Función para generar el archivo CSV
     function downloadCSV() {
@@ -1446,7 +2208,7 @@
 		  // Agregar el evento `mouseover` solo cuando la capa sea visible
 		  empresaLayers[i].on('mouseover', function() {
 			if (pluvialVisible) {  // Verifica si la capa es visible
-			  empresaLayers[i].bindPopup("<b>" + areaEmpresas[i].Nombre + "</b><br>" + "Caudal Recolectado (m<sup>3</sup>/año): " + areaEmpresas[i].Caudal_Recolectado).openPopup();
+			  empresaLayers[i].bindPopup("<b>" + areaEmpresas[i].Nombre + "</b><br>" + "Caudal potencialmente recolectable (m<sup>3</sup>/d): " + areaEmpresas[i].Caudal_Recolectado).openPopup();
 			}
 		  });
 		  
@@ -1497,8 +2259,15 @@
 	  });
 	}	
 	
+	toggleConvexHulls()
+	document.getElementById('boton-0').click();
+	convexHullLayers.forEach(function(layer) {
+		map.removeLayer(layer);
+	});			
+	
 	function toggleConvexHulls() {
 		var btnConvexHulls = document.getElementById("toggle-convex-hulls");
+		var subpanelReuso = document.getElementById("subpanel-Reuso");		
 		if (convexHullsVisible) {
 			btnConvexHulls.classList.remove("active");  // Remover la clase 'active'
 			btnConvexHulls.classList.add("nonactive");  // Añadir la clase 'nonactive'
@@ -1507,6 +2276,16 @@
 				map.removeLayer(layer);
 			});
 			convexHullsVisible = false;
+			subpanelReuso.style.display = "none"; // Ocultar el subpanel
+			
+			// Si los marcadores están visibles, eliminarlos del mapa
+			for (var nombre in Plantas_pri_sec_cuencaMarkers) {
+			  if (Plantas_pri_sec_cuencaMarkers.hasOwnProperty(nombre)) {	  
+				map.removeLayer(Plantas_pri_sec_cuencaMarkers[nombre]);
+			  }
+			}			
+			
+			
 		} else {
 			btnConvexHulls.classList.toggle("active");
 			// Mostrar las envolventes convexas
@@ -1559,9 +2338,44 @@
 			
 			convexHullLayers.push(hull_cuenca_tercera); // Agregar la capa al array
 			convexHullsVisible = true;
+			
+			
+			
+			subpanelReuso.style.display = "block"; // Mostrar el subpanel
+			
+			// Si los marcadores están ocultos, agregarlos al mapa
+			for (var nombre in Plantas_pri_sec_cuencaMarkers) {
+			  if (Plantas_pri_sec_cuencaMarkers.hasOwnProperty(nombre)) {
+				Plantas_pri_sec_cuencaMarkers[nombre].addTo(map);
+			  }
+			}			
+			// Crear botones para cada marcador en el subpanel
+			subpanelReuso.innerHTML = "<h4> Marcadores </h4>"; // Limpiar el contenido existente y agregar el título
+			puntos_Plantas_pri_sec_cuenca.forEach(function(punto,index) {
+			  var puntos_Plantas_pri_sec_cuencaButton = document.createElement("button");
+			  puntos_Plantas_pri_sec_cuencaButton.classList.add("marker-Button"); // Asignar clase		  
+			  puntos_Plantas_pri_sec_cuencaButton.innerHTML = punto.Nombre;
+			  puntos_Plantas_pri_sec_cuencaButton.id = "boton-" + index; // ID único para cada botón			  
+			  puntos_Plantas_pri_sec_cuencaButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
+			  puntos_Plantas_pri_sec_cuencaButton.style.marginBottom = "5px"; // Espacio entre los botones
+			  puntos_Plantas_pri_sec_cuencaButton.onclick = function() {
+				map.flyTo([punto.Latitud, punto.Longitud], 14, {
+				animate: true,
+				duration: 2.0
+				}); // Ajusta el nivel de zoom según sea necesario
+			  };
+			  subpanelReuso.appendChild(puntos_Plantas_pri_sec_cuencaButton);
+			});
+		
+			// Cambiar el estado de visibilidad
+//			Plantas_pri_sec_cuencaVisible = !Plantas_pri_sec_cuencaVisible;
 		}
 	}		
 
+	
+
+	
+	
 	function toggleOtrasCuencas() {
 	  var btnOtrasCuencas = document.getElementById("toggle-Otras-Cuencas");
 	  var subpanelOtrasCuencas = document.getElementById("subpanel-Otras-Cuencas");
@@ -1649,6 +2463,19 @@
 		btnEmpresas.style.display = "block";
 		btnAcuiferos.style.display = "block";
 	  } else {
+	  
+		if (Empresas_markersVisible) {
+			toggleSubterraneaEmpresas()
+		}
+		
+		if (pozosVisible) {
+			toggleSubterraneaPozos()
+		}	  
+
+		if (pozosVisible2) {
+			toggleSubterraneaPozos2()
+		}
+		
 	   	btnAguaSubterranea.classList.remove("active");  // Remover la clase 'active'
 		btnAguaSubterranea.classList.add("nonactive");  // Añadir la clase 'nonactive'
 		
@@ -1664,9 +2491,6 @@
 		subpanelAcuiferos.style.display = "none";
 	  }
 	}	
-	
-	
-	
 
 	
 	

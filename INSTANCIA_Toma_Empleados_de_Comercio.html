@@ -236,7 +236,7 @@
 <body>
 
   <!-- Portada (Pantalla de inicio) -->
-  <div id="portada" style="display: block;">
+  <div id="portada" style="display: none;">
     <div id="titulo-portada">
       <h1>GIS <br> INVENTARIO DE AGUA PARA USO INDUSTRIAL</h1>
     </div>
@@ -2120,7 +2120,7 @@
     // Crear lista interactiva de plantas
     var plantEntries = document.getElementById("plant-entries");
 
-
+	ingresar()
 
 	// Función para ocultar la portada y mostrar el mapa
 	function ingresar() {
@@ -2347,10 +2347,11 @@
 			}			
 			// Crear botones para cada marcador en el subpanel
 			subpanelReuso.innerHTML = "<h4> Marcadores </h4>"; // Limpiar el contenido existente y agregar el título
-			puntos_Plantas_pri_sec_cuenca.forEach(function(punto) {
+			puntos_Plantas_pri_sec_cuenca.forEach(function(punto,index) {
 			  var puntos_Plantas_pri_sec_cuencaButton = document.createElement("button");
 			  puntos_Plantas_pri_sec_cuencaButton.classList.add("marker-Button"); // Asignar clase		  
 			  puntos_Plantas_pri_sec_cuencaButton.innerHTML = punto.Nombre;
+			  puntos_Plantas_pri_sec_cuencaButton.id = "boton-" + index; // ID único para cada botón			  
 			  puntos_Plantas_pri_sec_cuencaButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
 			  puntos_Plantas_pri_sec_cuencaButton.style.marginBottom = "5px"; // Espacio entre los botones
 			  puntos_Plantas_pri_sec_cuencaButton.onclick = function() {
@@ -2368,7 +2369,8 @@
 	}		
 
 	
-
+	toggleOtrasCuencas()
+	document.getElementById('boton-1').click();
 	
 	
 	function toggleOtrasCuencas() {
@@ -2396,10 +2398,11 @@
 
 		// Crear botones para cada marcador en el subpanel
 		subpanelOtrasCuencas.innerHTML = "<h4> Marcadores </h4>"; // Limpiar el contenido existente y agregar el título
-		puntos_Otras_Cuencas.forEach(function(punto) {
+		puntos_Otras_Cuencas.forEach(function(punto,index) {
 		  var OtrasCuencasmarkerButton = document.createElement("button");
 		  OtrasCuencasmarkerButton.classList.add("marker-Button"); // Asignar clase		  
 		  OtrasCuencasmarkerButton.innerHTML = punto.Nombre;
+		  OtrasCuencasmarkerButton.id = "boton-" + index; // ID único para cada botón		  
 		  OtrasCuencasmarkerButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
 		  OtrasCuencasmarkerButton.style.marginBottom = "5px"; // Espacio entre los botones
 		  OtrasCuencasmarkerButton.onclick = function() {
