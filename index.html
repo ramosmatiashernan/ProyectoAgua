@@ -278,8 +278,8 @@
     <div id="subpanel-Agua-Subterranea" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Agua Subterranea</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo</button>
-		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos2()">Pozos Bajo San José</button>
+		<button id="toggle-Agua-Subterranea-Pozos3" onclick="toggleSubterraneaPozos3()">Pozos Cabildo</button>
+		<button id="toggle-Agua-Subterranea-Pozos4" onclick="toggleSubterraneaPozos4()">Pozos Bajo San José</button>
 
 		<button id="toggle-Agua-Subterranea-Empresas" onclick="toggleSubterraneaEmpresas()">Empresas</button>
 		<div id="subpanel-Agua-Subterranea-Empresas" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
@@ -313,14 +313,14 @@
     <button id="toggle-panel" onclick="togglePanel()">-</button> <!-- Botón de minimizar/maximizar -->
  <!--   <h3>Capas</h3>  -->
     <div id="plant-entries"></div>
-
+<!--
 	<button id="btn-Actual" onclick="toggleMarkers()">Actual</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
-    <div id="subpanel" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
+ <!--   <div id="subpanel" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Marcadores</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
-    </div>
-	
+  <!--   </div>
+	 -->
 </div>
   
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -1950,13 +1950,73 @@
 	}
 
 
+
+
+
+
+	function toggleSubterraneaPozos3() {
+	  var btnPozos3 = document.getElementById("toggle-Agua-Subterranea-Pozos3");
+	  
+	  if (pozosVisible) {
+		// Si los marcadores están visibles, eliminarlos del mapa
+		for (var nombre in pozosMarkers) {
+		  if (pozosMarkers.hasOwnProperty(nombre)) {
+		    map.removeLayer(pozosMarkers[nombre]);
+		  }
+		}
+		  btnPozos3.classList.remove("active");  // Remover la clase 'active'
+		  btnPozos3.classList.add("nonactive");  // Añadir la clase 'nonactive'	
+	  } else {
+		btnPozos3.classList.toggle("active");
+		// Si los marcadores están ocultos, agregarlos al mapa
+		for (var nombre in pozosMarkers) {
+		  if (pozosMarkers.hasOwnProperty(nombre)) {
+			pozosMarkers[nombre].addTo(map);
+		  }
+		}
+	  }
+
+	  // Cambiar el estado de visibilidad
+	  pozosVisible = !pozosVisible;	
+	
+	}
+	
+	function toggleSubterraneaPozos4() {
+	  var btnPozos4 = document.getElementById("toggle-Agua-Subterranea-Pozos4");
+	  
+	  if (pozosVisible2) {
+		// Si los marcadores están visibles, eliminarlos del mapa
+		for (var nombre in pozosMarkers2) {
+		  if (pozosMarkers2.hasOwnProperty(nombre)) {
+		    map.removeLayer(pozosMarkers2[nombre]);
+		  }
+		}
+		  btnPozos4.classList.remove("active");  // Remover la clase 'active'
+		  btnPozos4.classList.add("nonactive");  // Añadir la clase 'nonactive'	
+	  } else {
+		btnPozos4.classList.toggle("active");
+		// Si los marcadores están ocultos, agregarlos al mapa
+		for (var nombre in pozosMarkers2) {
+		  if (pozosMarkers2.hasOwnProperty(nombre)) {
+			pozosMarkers2[nombre].addTo(map);
+		  }
+		}
+	  }
+
+	  // Cambiar el estado de visibilidad
+	  pozosVisible2 = !pozosVisible2;	
+	
+	}
+
+
+
 //	  var btnPozos2 = document.getElementById("toggle-Agua-Subterranea-Pozos2");
 	  
 	  
 //		<button id="toggle-Agua-Subterranea-Pozos" onclick="toggleSubterraneaPozos()">Pozos Cabildo</button>
 //		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos()">Pozos Bajo San José</button>	  
 
-	
+/*	
 	// Función para manejar la visibilidad de los marcadores y el subpanel
 	function toggleMarkers() {
 	  var btnActual = document.getElementById("btn-Actual");		
@@ -2002,7 +2062,7 @@
 	  // Cambiar el estado de visibilidad
 	  markersVisible = !markersVisible;
 	}
-	
+*/	
 	
 	
 	// Función para manejar la visibilidad de los marcadores y el subpanel
@@ -2441,7 +2501,8 @@
 	  var btnAguaSubterranea = document.getElementById("toggle-Agua-Subterranea");
 	  subterraneaVisible = !subterraneaVisible;  // Cambia el estado (visible/invisible)
 	  var subpanelAguaSubterranea = document.getElementById("subpanel-Agua-Subterranea");
-	  var btnPozos = document.getElementById("toggle-Agua-Subterranea-Pozos");
+	  var btnPozos3 = document.getElementById("toggle-Agua-Subterranea-Pozos3");
+	  var btnPozos4 = document.getElementById("toggle-Agua-Subterranea-Pozos4");	  
 	  var subpanelPozos = document.getElementById("subpanel-Agua-Subterranea-Pozos");
 	  var btnEmpresas = document.getElementById("toggle-Agua-Subterranea-Empresas");
 	  var subpanelEmpresas = document.getElementById("subpanel-Agua-Subterranea-Empresas");
@@ -2454,7 +2515,8 @@
 		
 		// Mostrar subpanel y botones asociados
 		subpanelAguaSubterranea.style.display = "block";
-		btnPozos.style.display = "block";
+		btnPozos3.style.display = "block";
+		btnPozos4.style.display = "block";		
 		btnEmpresas.style.display = "block";
 		btnAcuiferos.style.display = "block";
 	  } else {
@@ -2464,11 +2526,11 @@
 		}
 		
 		if (pozosVisible) {
-			toggleSubterraneaPozos()
+			toggleSubterraneaPozos3()
 		}	  
 
 		if (pozosVisible2) {
-			toggleSubterraneaPozos2()
+			toggleSubterraneaPozos4()
 		}
 		
 	   	btnAguaSubterranea.classList.remove("active");  // Remover la clase 'active'
@@ -2476,7 +2538,8 @@
 		
 		// Ocultar subpanel y botones asociados
 		subpanelAguaSubterranea.style.display = "none";
-		btnPozos.style.display = "none";
+		btnPozos3.style.display = "none";
+		btnPozos4.style.display = "none";		
 		btnEmpresas.style.display = "none";
 		btnAcuiferos.style.display = "none";
 		
