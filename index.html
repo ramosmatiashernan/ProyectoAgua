@@ -460,13 +460,13 @@
 		{"Nombre": "3", "Latitud": -38.678218, "Longitud": -62.168242 }
     ];	
 
-
+/*
     var puntos_Otras_Cuencas = [
 		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
 		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
 		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" }
     ];	
-	
+*/	
     var puntos_Plantas_pri_sec_cuenca = [
 		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558, "Caudal": "84.000" },
 		{ "Nombre": "Planta Depuradora de Líquidos Cloacales Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171, "Caudal": "12.000" },
@@ -507,19 +507,38 @@
     var puntos_Otras_Cuencas = [
 		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
 		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
-		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" }
+		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" },
+		
+		{"Nombre": "Río Colorado (Naciente)", "Latitud": -36.871528, "Longitud": -69.759694, "Caudal": "40.300" },
+		{"Nombre": "Río Colorado (Desembocadura)", "Latitud": -39.696028, "Longitud": -62.096222, "Caudal": "40.300" },
+		
+		{"Nombre": "Río Sauce Grande (Naciente)", "Latitud": -38.045683, "Longitud": -61.865431, "Caudal": "40.300" },
+		{"Nombre": "Río Sauce Grande (Desembocadura)", "Latitud": -38.990833, "Longitud": -61.114444, "Caudal": "40.300" },
+		
+//		{"Nombre": "Río Negro (Naciente)", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" },
+//		{"Nombre": "Río Negro (Desembocadura)", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" },
+
+		{"Nombre": "Río Sauce Chico (Naciente)", "Latitud": -37.943184, "Longitud": -62.108638, "Caudal": "40.300" },
+		{"Nombre": "Río Sauce Chico (Desembocadura)", "Latitud": -38.736961, "Longitud": -62.446138, "Caudal": "40.300" },
+	
+		{"Nombre": "Arroyo Napostá (Naciente)", "Latitud": -38.128713, "Longitud": -61.970909, "Caudal": "40.300" },
+		{"Nombre": "Arroyo Napostá (Desembocadura)", "Latitud": -38.785844, "Longitud": -62.236530, "Caudal": "40.300" },		
     ];	
 	
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
 	puntos_Otras_Cuencas.forEach(function(punto) {
-		if (punto.Nombre != "Puente Canessa") {
+		if (punto.Nombre == "Toma Paraje Mirasoles" || punto.Nombre == "Toma Empleados de Comercio") {
 		  var marker = L.marker([punto.Latitud, punto.Longitud])
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
 			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.Caudal);
-		} else {
+		} else if (punto.Nombre == "Puente Canessa") {
 		  var marker = L.marker([punto.Latitud, punto.Longitud])
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
 			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal potencialmente disponible (m<sup>3</sup>/d): " + punto.Caudal);		
+		} else {
+		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" +  "Caudal potencialmente disponible (m<sup>3</sup>/d): " + punto.Caudal);				
 		}
 	  // Guardar el marcador en un objeto para futura interacción
 	  OtrasCuencasMarkers[punto.Nombre] = marker;
