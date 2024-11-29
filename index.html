@@ -1905,12 +1905,29 @@
 		}
 	  });
 	});
-	
-	
+
+
+var punto_a_agregar_un_cartel = {
+    latitud: -38.483829,  // Ejemplo de latitud
+    longitud: -61.839809, // Ejemplo de longitud
+    caudal: "19.200"   // Ejemplo de caudal
+};	
+
+var mensajito = L.popup()
+	.setLatLng([punto_a_agregar_un_cartel.latitud, punto_a_agregar_un_cartel.longitud])
+	.setContent("Caudal disponible (m<sup>3</sup>/d): " + punto_a_agregar_un_cartel.caudal); // Mostrar el mensaje de caudal
+
+
 	function toggleSubterraneaPozos() {
 	  var btnPozos = document.getElementById("toggle-Agua-Subterranea-Pozos");
+
+   		
+		
+	  	  
 	  
 	  if (pozosVisible) {
+		map.removeLayer(mensajito);
+		
 		// Si los marcadores están visibles, eliminarlos del mapa
 		for (var nombre in pozosMarkers) {
 		  if (pozosMarkers.hasOwnProperty(nombre)) {
@@ -1921,23 +1938,47 @@
 		  btnPozos.classList.add("nonactive");  // Añadir la clase 'nonactive'	
 	  } else {
 		btnPozos.classList.toggle("active");
+		
 		// Si los marcadores están ocultos, agregarlos al mapa
 		for (var nombre in pozosMarkers) {
 		  if (pozosMarkers.hasOwnProperty(nombre)) {
 			pozosMarkers[nombre].addTo(map);
 		  }
 		}
+
+        // Mostrar un cartel con el mensaje en el punto específico
+            mensajito.openOn(map)
+    		
+		
 	  }
 
 	  // Cambiar el estado de visibilidad
 	  pozosVisible = !pozosVisible;	
 	
 	}
+
+
+var punto_a_agregar_un_cartel2 = {
+    latitud: -38.488935,  // Ejemplo de latitud
+    longitud: -61.770458, // Ejemplo de longitud
+    caudal: "19.200"   // Ejemplo de caudal
+};	
+
+var mensajito2 = L.popup()
+	.setLatLng([punto_a_agregar_un_cartel2.latitud, punto_a_agregar_un_cartel2.longitud])
+	.setContent("Caudal disponible (m<sup>3</sup>/d): " + punto_a_agregar_un_cartel2.caudal); // Mostrar el mensaje de caudal
+
+
+
+
 	
 	function toggleSubterraneaPozos2() {
 	  var btnPozos2 = document.getElementById("toggle-Agua-Subterranea-Pozos2");
 	  
 	  if (pozosVisible2) {
+	  
+		map.removeLayer(mensajito2);
+		
 		// Si los marcadores están visibles, eliminarlos del mapa
 		for (var nombre in pozosMarkers2) {
 		  if (pozosMarkers2.hasOwnProperty(nombre)) {
@@ -1954,6 +1995,9 @@
 			pozosMarkers2[nombre].addTo(map);
 		  }
 		}
+        // Mostrar un cartel con el mensaje en el punto específico
+            mensajito2.openOn(map)		
+		
 	  }
 
 	  // Cambiar el estado de visibilidad
@@ -1970,6 +2014,7 @@
 	  var btnPozos3 = document.getElementById("toggle-Agua-Subterranea-Pozos3");
 	  
 	  if (pozosVisible) {
+		map.removeLayer(mensajito);	  
 		// Si los marcadores están visibles, eliminarlos del mapa
 		for (var nombre in pozosMarkers) {
 		  if (pozosMarkers.hasOwnProperty(nombre)) {
@@ -1986,6 +2031,7 @@
 			pozosMarkers[nombre].addTo(map);
 		  }
 		}
+            mensajito.openOn(map)			
 	  }
 
 	  // Cambiar el estado de visibilidad
@@ -1997,6 +2043,7 @@
 	  var btnPozos4 = document.getElementById("toggle-Agua-Subterranea-Pozos4");
 	  
 	  if (pozosVisible2) {
+		map.removeLayer(mensajito2);	 	  
 		// Si los marcadores están visibles, eliminarlos del mapa
 		for (var nombre in pozosMarkers2) {
 		  if (pozosMarkers2.hasOwnProperty(nombre)) {
@@ -2013,6 +2060,7 @@
 			pozosMarkers2[nombre].addTo(map);
 		  }
 		}
+            mensajito2.openOn(map)			
 	  }
 
 	  // Cambiar el estado de visibilidad
