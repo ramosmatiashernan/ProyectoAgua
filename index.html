@@ -625,7 +625,10 @@
 	
 	
     var puntos_Sistema_de_Abastecimiento_Actual = [
-      { "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108, "Caudal": "192.000" },
+
+	{ "Nombre": "Acueducto Principal", "Latitud": -38.435438, "Longitud": -61.790371},
+
+	{ "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108, "Caudal": "192.000" },
 
       { "Nombre": "Planta Potabilizadora Modular", "Latitud": -38.704903, "Longitud": -62.211027, "Caudal": "28.800" },
 	  
@@ -656,6 +659,10 @@
 		  var marker = L.marker([punto.Latitud, punto.Longitud])
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
 			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.CaudalDisponible + "</b><br>" + "Caudal captado (m<sup>3</sup>/d): " + punto.CaudalCaptado);		
+		} else if (punto.Nombre == "Acueducto Principal") {
+			var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre);		
 		} else {
 		  var marker = L.marker([punto.Latitud, punto.Longitud])
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
@@ -1341,7 +1348,7 @@
 			  SistemaAbastecimientomarkerButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
 			  SistemaAbastecimientomarkerButton.style.marginBottom = "5px"; // Espacio entre los botones
 			  SistemaAbastecimientomarkerButton.onclick = function() {
-				map.flyTo([punto.Latitud, punto.Longitud], 14, {
+				map.flyTo([punto.Latitud, punto.Longitud], 13, {
 				animate: true,
 				duration: 2.0
 				}); // Ajusta el nivel de zoom según sea necesario
