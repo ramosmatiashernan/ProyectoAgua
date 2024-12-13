@@ -377,7 +377,7 @@
 	
     var puntos = [
       { "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108 },
-      { "Nombre": "Planta Potabilizadora Grunbein", "Latitud": -38.75089687, "Longitud": -62.11355741 },
+      { "Nombre": "Planta Potabilizadora Grünbein", "Latitud": -38.75089687, "Longitud": -62.11355741 },
       { "Nombre": "Planta Depuradora de Líquidos Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558 },
       { "Nombre": "Planta Depuradora Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171 },
 	  { "Nombre": "Embalse Dique Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888 },
@@ -438,7 +438,7 @@
 		{"Nombre": "4", "Latitud": -38.484038, "Longitud": -61.897732 }
     ];		
 	
-    var puntos_acuifero_principal_derivacion_grunbein = [
+    var puntos_acuifero_principal_derivacion_Grünbein = [
         {"Nombre": "1", "Latitud": -38.664918, "Longitud": -62.069158 },
 		{"Nombre": "2", "Latitud": -38.713938, "Longitud": -62.062034 },
 		{"Nombre": "3", "Latitud": -38.749824, "Longitud": -62.113486 },
@@ -634,7 +634,7 @@
 
       { "Nombre": "Planta Potabilizadora Modular", "Latitud": -38.704903, "Longitud": -62.211027, "Caudal": "28.800" },
 	  
-      { "Nombre": "Planta Potabilizadora Grunbein", "Latitud": -38.75089687, "Longitud": -62.11355741, "Caudal": "48.000" },
+      { "Nombre": "Planta Potabilizadora Grünbein", "Latitud": -38.75089687, "Longitud": -62.11355741, "Caudal": "48.000" },
 	  
 //      { "Nombre": "Planta Depuradora de Líquidos Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558 },
 //      { "Nombre": "Planta Depuradora Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171 },
@@ -653,7 +653,7 @@
 	
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
 	puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
-		if (punto.Nombre == "Planta Potabilizadora Patagonia" || punto.Nombre == "Planta Potabilizadora Grunbein" || punto.Nombre == "Planta Potabilizadora Modular") {
+		if (punto.Nombre == "Planta Potabilizadora Patagonia" || punto.Nombre == "Planta Potabilizadora Grünbein" || punto.Nombre == "Planta Potabilizadora Modular") {
 		  var marker = L.marker([punto.Latitud, punto.Longitud])
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
 			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal potabilizado (m<sup>3</sup>/d): " + punto.Caudal);
@@ -763,7 +763,7 @@
 		{"Nombre": "15", "Latitud": -38.781383, "Longitud": -62.280872 },
     ];	
 	
-    var puntos_planta_grunbein_a_punta = [
+    var puntos_planta_Grünbein_a_punta = [
         {"Nombre": "1", "Latitud": -38.75089687, "Longitud": -62.11355741 },
 //		{"Nombre": "1", "Latitud": -38.752445, "Longitud": -62.112443 },
 //		{"Nombre": "1", "Latitud": -38.758519, "Longitud": -62.117207 },
@@ -873,7 +873,7 @@
 		{"Nombre": "2", "Latitud": -38.480974, "Longitud": -61.795135 },
     ];	
 
-    var puntos_patagonia_a_grunbein = [
+    var puntos_patagonia_a_Grünbein = [
         {"Nombre": "1", "Latitud": -38.704485, "Longitud": -62.211049 },
 		{"Nombre": "2", "Latitud": -38.711835, "Longitud": -62.180922 },
 		{"Nombre": "2", "Latitud": -38.750904, "Longitud": -62.113566 },
@@ -950,7 +950,7 @@
 				return [punto.Latitud, punto.Longitud];
 			});
 
-			var coordenadas3 = puntos_acuifero_principal_derivacion_grunbein.map(function(punto) {
+			var coordenadas3 = puntos_acuifero_principal_derivacion_Grünbein.map(function(punto) {
 				return [punto.Latitud, punto.Longitud];
 			});
 						
@@ -978,7 +978,7 @@
 				return [punto.Latitud, punto.Longitud];
 			});	
 			
-			var coordenadas10 = puntos_planta_grunbein_a_punta.map(function(punto) {
+			var coordenadas10 = puntos_planta_Grünbein_a_punta.map(function(punto) {
 				return [punto.Latitud, punto.Longitud];
 			});	
 
@@ -1042,7 +1042,7 @@
 				return [punto.Latitud, punto.Longitud];
 			});		
 	
-			var coordenadas26 = puntos_patagonia_a_grunbein.map(function(punto) {
+			var coordenadas26 = puntos_patagonia_a_Grünbein.map(function(punto) {
 				return [punto.Latitud, punto.Longitud];
 			});		
 	
