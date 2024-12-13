@@ -1219,9 +1219,12 @@
 		if (!poligonoVisible) {
 		
 	
-
-
-			
+				
+			map.flyTo([-38.585210, -61.929932], 10.5, {
+			animate: true,
+			duration: 2.0
+			}); // Ajusta el nivel de zoom según sea necesario
+								
 			for (var nombre in SistemaAbastecimientoMarkers) {
 			  if (SistemaAbastecimientoMarkers.hasOwnProperty(nombre)) {
 				SistemaAbastecimientoMarkers[nombre].addTo(map);
@@ -1263,7 +1266,6 @@
 				toggleSubterraneaPozos2(); // Llamar a la función específica de Acueductos
 			};
 			subpanelSistemaAbastecimiento.appendChild(PozosBajoSanJoseButton);			
-				
 			
 			puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
 			  var SistemaAbastecimientomarkerButton = document.createElement("button");
@@ -1282,6 +1284,17 @@
 										
 			poligonoVisible = true; // Cambiar el estado a visible
 			btnSistemaAbastecimiento.classList.toggle("active");
+
+			
+//			toggleAcueductos()
+//			pozosVisible = false;	
+//			pozosVisible2 = false;
+//			btnPozos2.classList.toggle("active");
+//			toggleSubterraneaPozos()
+//			btnPozos.classList.toggle("active");
+//			toggleSubterraneaPozos2()
+		
+			
 		} else {
 		
 			if (polygon) {
@@ -1315,6 +1328,15 @@
 			
 
 		}
+		
+		
+		if (poligonoVisible) {
+			toggleAcueductos()
+			//poligonoVisible = true;
+				
+		}		
+		
+		//toggleAcueductos()
 	}
 
 
