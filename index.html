@@ -247,11 +247,11 @@
 
   <div id="map"></div>
 
-  
+<!--  
 <div id="boton-de-descarga">
   <button id="download-button">Descargar Datos (CSV)</button>
 </div>
- 
+--> 
  
  
 <div id="plant-list">
@@ -266,7 +266,7 @@
 		<button id="toggle-Agua-Subterranea-Pozos2" onclick="toggleSubterraneaPozos2()">Pozos Bajo San José</button>
     </div>	
 
-		<button id="toggle-Otras-Cuencas" onclick="toggleOtrasCuencas()">Otras Cuencas</button> <!-- Nuevo botón -->
+		<button id="toggle-Otras-Cuencas" onclick="toggleOtrasCuencas()">Cuencas</button> <!-- Nuevo botón -->
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Otras-Cuencas" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <h4>Marcadores</h4>
@@ -505,8 +505,8 @@
 	var OtrasCuencasmarkersVisible = false; // Estado de visibilidad inicial
 
     var puntos_Otras_Cuencas = [
-		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
-		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+//		{ "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
+//		{ "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
 		{ "Nombre": "Puente Canessa", "Latitud": -38.590696, "Longitud": -62.087676, "Caudal": "40.300" },
 		
 		{"Nombre": "Río Colorado (Naciente)", "Latitud": -36.871528, "Longitud": -69.759694, "Caudal": "40.300" },
@@ -1284,15 +1284,6 @@
 										
 			poligonoVisible = true; // Cambiar el estado a visible
 			btnSistemaAbastecimiento.classList.toggle("active");
-
-			
-//			toggleAcueductos()
-//			pozosVisible = false;	
-//			pozosVisible2 = false;
-//			btnPozos2.classList.toggle("active");
-//			toggleSubterraneaPozos()
-//			btnPozos.classList.toggle("active");
-//			toggleSubterraneaPozos2()
 		
 			
 		} else {
@@ -1331,12 +1322,9 @@
 		
 		
 		if (poligonoVisible) {
-			toggleAcueductos()
-			//poligonoVisible = true;
-				
+			toggleAcueductos()	
 		}		
-		
-		//toggleAcueductos()
+
 	}
 
 
@@ -2669,6 +2657,12 @@ var mensajito2 = L.popup()
 		}
 		subpanelOtrasCuencas.style.display = "none"; // Ocultar el subpanel
 	  } else {
+	    
+		map.flyTo([-38.108628, -65.093994], 7.2, {
+		animate: true,
+		duration: 2.0
+		}); // Ajusta el nivel de zoom según sea necesario	 
+		
 	    btnOtrasCuencas.classList.toggle("active");
 		// Si los marcadores están ocultos, agregarlos al mapa
 		for (var nombre in OtrasCuencasMarkers) {
@@ -2777,7 +2771,7 @@ var mensajito2 = L.popup()
 	
 	
     // Asignar la función de descarga al botón
-    document.getElementById("download-button").onclick = downloadCSV;
+//    document.getElementById("download-button").onclick = downloadCSV;
 
 	// Llamar a la función para dibujar el área de Profertil
 	//dibujarAreasEmpresas(areaEmpresas);
