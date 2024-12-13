@@ -372,6 +372,8 @@
 		}
 	  });	
 	
+	var contador1 = 0;
+	var contador2 = 0;
 	
     var puntos = [
       { "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108 },
@@ -924,11 +926,13 @@
 		    
 
 			if (!pozosVisible) {
+				contador1 = 0;
 				toggleSubterraneaPozos()
 					
 			}				
 
 			if (!pozosVisible2) {
+				contador2 = 0;
 				toggleSubterraneaPozos2()
 					
 			}		
@@ -1394,11 +1398,14 @@
 
 		}
 		
-		
+			
 		if (poligonoVisible) {
 			toggleAcueductos()	
 		}		
-
+		
+		contador1 = 0;
+		contador2 = 0;
+		
 	}
 
 
@@ -1655,14 +1662,15 @@ var mensajito = L.popup()
 		}
 
         // Mostrar un cartel con el mensaje en el punto específico
-            mensajito.openOn(map)
-    		
+			if (contador1 >= 1) {
+				mensajito.openOn(map)
+    		}
 		
 	  }
 
 	  // Cambiar el estado de visibilidad
 	  pozosVisible = !pozosVisible;	
-	
+	  contador1 = contador1 + 1;
 	}
 
 
@@ -1704,13 +1712,15 @@ var mensajito2 = L.popup()
 		  }
 		}
         // Mostrar un cartel con el mensaje en el punto específico
-            mensajito2.openOn(map)		
+			if (contador2 >= 1) {
+				mensajito2.openOn(map)
+    		}	
 		
 	  }
 
 	  // Cambiar el estado de visibilidad
 	  pozosVisible2 = !pozosVisible2;	
-	
+	  contador2 = contador2 + 1;
 	}
 
 
@@ -1746,12 +1756,14 @@ var mensajito2 = L.popup()
 			pozosMarkers[nombre].addTo(map);
 		  }
 		}
-            mensajito.openOn(map)			
+			if (contador1 >= 1) {
+				mensajito.openOn(map)
+    		}			
 	  }
 
 	  // Cambiar el estado de visibilidad
 	  pozosVisible = !pozosVisible;	
-	
+	  contador1 = contador1 + 1;
 	}
 	
 	function toggleSubterraneaPozos4() {
@@ -1781,12 +1793,14 @@ var mensajito2 = L.popup()
 			pozosMarkers2[nombre].addTo(map);
 		  }
 		}
-            mensajito2.openOn(map)			
+			if (contador2 >= 1) {
+				mensajito2.openOn(map)
+    		}			
 	  }
 
 	  // Cambiar el estado de visibilidad
 	  pozosVisible2 = !pozosVisible2;	
-	
+	  contador2 = contador2 + 1;
 	}
 
 
@@ -2446,8 +2460,11 @@ var mensajito2 = L.popup()
 
 	  if (subterraneaVisible) {
 	  
+		contador1 = 0;
 		toggleSubterraneaPozos3()
+		contador2 = 0;
 		toggleSubterraneaPozos4()
+		
 		toggleSubterraneaEmpresas()
 		
 		map.flyTo([-38.612578, -62.052841], 11, {
@@ -2470,10 +2487,12 @@ var mensajito2 = L.popup()
 		}
 		
 		if (pozosVisible) {
+		    contador1 = 0;
 			toggleSubterraneaPozos3()
 		}	  
 
 		if (pozosVisible2) {
+			contador2 = 0;
 			toggleSubterraneaPozos4()
 		}
 		
