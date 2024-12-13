@@ -519,10 +519,12 @@
 		{"Nombre": "Río Negro (Desembocadura)", "Latitud": -41.027386, "Longitud": -62.784722, "Caudal": "40.300" },
 
 		{"Nombre": "Río Sauce Chico (Naciente)", "Latitud": -37.943184, "Longitud": -62.108638, "Caudal": "40.300" },
-		{"Nombre": "Río Sauce Chico (Desembocadura)", "Latitud": -38.736961, "Longitud": -62.446138, "Caudal": "40.300" },
-	
-		{"Nombre": "Arroyo Napostá (Naciente)", "Latitud": -38.128713, "Longitud": -61.970909, "Caudal": "40.300" },
-		{"Nombre": "Arroyo Napostá (Desembocadura)", "Latitud": -38.785844, "Longitud": -62.236530, "Caudal": "40.300" },		
+		{"Nombre": "Río Sauce Chico (Desembocadura)", "Latitud": -38.741183, "Longitud": -62.442542, "Caudal": "40.300" },
+
+		{"Nombre": "Arroyo Napostá Grande (Naciente)", "Latitud": -38.128713, "Longitud": -61.970909, "Caudal": "40.300" },
+		{"Nombre": "Arroyo Napostá Grande (Desembocadura)", "Latitud": -38.799382, "Longitud": -62.237859, "Caudal": "40.300" },	
+
+		{"Nombre": "Estuario de Bahía Blanca", "Latitud": -38.825797, "Longitud": -62.259493, "Caudal": "40.300" },		
     ];	
 	
 	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
@@ -559,7 +561,69 @@
 	});
 
 
+    var puntos_Agua_Submarina = [
+		{ "Nombre": "Desalinización de Agua", "Latitud": -38.995530, "Longitud": -61.613768},
+	];
+	
+	var AguaMarinaMarkers = {};
+	var AguaSubmarinaMarkersVisible	= false;	
+	
+	// Crear marcadores y almacenarlos, pero no agregarlos al mapa de inmediato
+	puntos_Agua_Submarina.forEach(function(punto) {
+		var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre);
+	  // Guardar el marcador en un objeto para futura interacción
+	  AguaMarinaMarkers[punto.Nombre] = marker;
 
+	  // Mostrar la información al pasar el mouse (hover)
+	  marker.on('mouseover', function() {
+		marker.openPopup();
+	  });
+
+	  // Comportamiento al hacer click para mantener el pop-up abierto
+	  marker.on('click', function() {
+		if (marker.isPopupOpen()) {
+		  marker.closePopup();
+		} else {
+		  marker.openPopup();
+		}
+	  });
+	});	
+	
+	
+    function toggleAguaMarina() {
+	  var btnAguaMarina = document.getElementById("Agua-Marina");
+
+	  if (AguaSubmarinaMarkersVisible) {
+		  btnAguaMarina.classList.remove("active");  // Remover la clase 'active'
+		  btnAguaMarina.classList.add("nonactive");  // Añadir la clase 'nonactive'	
+		// Si los marcadores están visibles, eliminarlos del mapa
+		for (var nombre in AguaMarinaMarkers) {
+		  if (AguaMarinaMarkers.hasOwnProperty(nombre)) {	  
+			map.removeLayer(AguaMarinaMarkers[nombre]);
+		  }
+		}
+
+	  } else {
+	    
+		map.flyTo([-38.995530, -61.613768], 13, {
+		animate: true,
+		duration: 2.0
+		}); // Ajusta el nivel de zoom según sea necesario	 
+		
+	    btnAguaMarina.classList.toggle("active");
+		// Si los marcadores están ocultos, agregarlos al mapa
+		for (var nombre in AguaMarinaMarkers) {
+		  if (AguaMarinaMarkers.hasOwnProperty(nombre)) {
+			AguaMarinaMarkers[nombre].addTo(map);
+		  }
+		}}
+	AguaSubmarinaMarkersVisible = !AguaSubmarinaMarkersVisible;	
+	}
+	  
+	
+	
     var puntos_Sistema_de_Abastecimiento_Actual = [
       { "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108, "Caudal": "192.000" },
 
@@ -1328,383 +1392,7 @@
 	}
 
 
-	
-/*
-	function toggleSistemaAbastecimiento() {
-		var btnSistemaAbastecimiento = document.getElementById("toggle-Sistema-abastecimiento");
-		var subpanelSistemaAbastecimiento = document.getElementById("subpanel-Sistema-abastecimiento");
-		if (!poligonoVisible) {
-		
-			for (var nombre in SistemaAbastecimientoMarkers) {
-			  if (SistemaAbastecimientoMarkers.hasOwnProperty(nombre)) {
-				SistemaAbastecimientoMarkers[nombre].addTo(map);
-			  }
-			}
-			subpanelSistemaAbastecimiento.style.display = "block"; // Mostrar el subpanel			
 
-			// Crear botones para cada marcador en el subpanel
-			subpanelSistemaAbastecimiento.innerHTML = "<h4> Sistema de Abastecimiento Actual </h4>"; // Limpiar el contenido existente y agregar el título
-			puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
-			  var SistemaAbastecimientomarkerButton = document.createElement("button");
-			  SistemaAbastecimientomarkerButton.classList.add("marker-Button"); // Asignar clase		  
-			  SistemaAbastecimientomarkerButton.innerHTML = punto.Nombre;
-			  SistemaAbastecimientomarkerButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
-			  SistemaAbastecimientomarkerButton.style.marginBottom = "5px"; // Espacio entre los botones
-			  SistemaAbastecimientomarkerButton.onclick = function() {
-				map.flyTo([punto.Latitud, punto.Longitud], 14, {
-				animate: true,
-				duration: 2.0
-				}); // Ajusta el nivel de zoom según sea necesario
-			  };
-			  subpanelSistemaAbastecimiento.appendChild(SistemaAbastecimientomarkerButton);
-			});
-							
-
-			// Convertir los puntos en un arreglo de coordenadas [lat, lng]
-			var coordenadas = puntos_acuifero_principal.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-			
-			var coordenadas2 = puntos_acuifero_principal_a_cabildo.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-
-			var coordenadas3 = puntos_acuifero_principal_derivacion_grunbein.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-						
-			var coordenadas4 = puntos_acuifero_principal_a_toma_marisoles.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});			
-			
-			var coordenadas5 = puntos_acuifero_principal_a_toma_empleado_de_comercios.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-
-			var coordenadas6 = puntos_acuifero_secundario1.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});				
-
-			var coordenadas7 = puntos_acuifero_secundario2.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-
-			var coordenadas8 = puntos_acuifero_secundario3.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-
-			var coordenadas9 = puntos_patagonia_a_polo.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-			
-			var coordenadas10 = puntos_planta_grunbein_a_punta.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-
-			var coordenadas11 = puntos_acuifero_principal_a_toma_marisoles2.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-
-			var coordenadas12 = puntos_2pozosSanJose_a_acueducto_sec.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-
-			var coordenadas13 = puntos_2pozosSanJose_a_acueducto_sec2.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-
-			var coordenadas14 = puntos_3pozosSanJose_a_acueducto_sec.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-
-			var coordenadas15 = puntos_3pozosSanJose_a_acueducto_sec2.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-
-			var coordenadas16 = puntos_3pozosSanJose_a_acueducto_sec3.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-
-			var coordenadas17 = puntos_1pozosSanJose_a_acueducto_sec.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});			
-
-			var coordenadas18 = puntos_acueducto_principal_indicaciones.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-			
-			var coordenadas19 = puntos_acueducto_secundario_indicaciones.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-			
-			var coordenadas20 = puntos_acueducto_secundario_indicaciones2.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});				
-
-			var coordenadas21 = puntos_acueducto_secundario_indicaciones3.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-
-			var coordenadas22 = puntos_arroyo_sauce_grande_tanque.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-	
-			var coordenadas23 = puntos_union_5_pozos.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});
-	
-			var coordenadas24 = puntos_union_3_pozos.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});	
-	
-			var coordenadas25 = puntos_union_1_pozos.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});		
-	
-			var coordenadas26 = puntos_patagonia_a_grunbein.map(function(punto) {
-				return [punto.Latitud, punto.Longitud];
-			});		
-	
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero = L.polyline(coordenadas, {
-				color: 'red', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);
-*/			
-			
-/*//			
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero2 = L.polyline(coordenadas2, {
-				color: 'red', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);			
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero3 = L.polyline(coordenadas3, {
-				color: 'turquoise', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);	
-*///			
-
-/*
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero4 = L.polyline(coordenadas4, {
-				color: 'purple', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);			
-			
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero5 = L.polyline(coordenadas5, {
-				color: 'purple', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);
-			
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero6 = L.polyline(coordenadas6, {
-				color: 'green', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero7 = L.polyline(coordenadas7, {
-				color: 'green', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero8 = L.polyline(coordenadas8, {
-				color: 'green', // Puedes personalizar el color
-				weight: 2,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero9 = L.polyline(coordenadas9, {
-				color: 'darkgreen', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero10 = L.polyline(coordenadas10, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);
-			
-			poligonoAcuifero11 = L.polyline(coordenadas11, {
-				color: 'purple', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);	
-
-			poligonoAcuifero12 = L.polyline(coordenadas12, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			poligonoAcuifero13 = L.polyline(coordenadas13, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			poligonoAcuifero14 = L.polyline(coordenadas14, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			poligonoAcuifero15 = L.polyline(coordenadas15, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			poligonoAcuifero16 = L.polyline(coordenadas16, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			poligonoAcuifero17 = L.polyline(coordenadas17, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);			
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero18 = L.polyline(coordenadas18, {
-				color: 'black', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-			
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero19 = L.polyline(coordenadas19, {
-				color: 'black', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);			
-			
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero20 = L.polyline(coordenadas20, {
-				color: 'black', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);				
-			
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero21 = L.polyline(coordenadas21, {
-				color: 'black', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero22 = L.polyline(coordenadas22, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero23 = L.polyline(coordenadas23, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero24 = L.polyline(coordenadas24, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero25 = L.polyline(coordenadas25, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 1,
-				fillOpacity: 0.4
-			}).addTo(map);
-
-			// Crear y agregar el polígono al mapa
-			poligonoAcuifero26 = L.polyline(coordenadas26, {
-				color: 'blue', // Puedes personalizar el color
-				weight: 4,
-				fillOpacity: 0.4
-			}).addTo(map);
-			
-			// Agregar el marcador con el div personalizado al mapa
-			marcador_cartel = L.marker([carteles_acueductos[0].Latitud, carteles_acueductos[0].Longitud], { icon: cartelDiv }).addTo(map);
-			marcador_cartel2 = L.marker([carteles_acueductos[1].Latitud, carteles_acueductos[1].Longitud], { icon: cartelDiv2 }).addTo(map);
-			marcador_cartel3 = L.marker([carteles_acueductos[2].Latitud, carteles_acueductos[2].Longitud], { icon: cartelDiv3 }).addTo(map);
-			marcador_cartel4 = L.marker([carteles_acueductos[3].Latitud, carteles_acueductos[3].Longitud], { icon: cartelDiv4 }).addTo(map);
-			
-
-			
-			poligonoVisible = true; // Cambiar el estado a visible
-			btnSistemaAbastecimiento.classList.toggle("active");
-		} else {
-			// Si el polígono ya está visible, eliminarlo del mapa
-			map.removeLayer(poligonoAcuifero);
-//			map.removeLayer(poligonoAcuifero2);
-//			map.removeLayer(poligonoAcuifero3);
-			map.removeLayer(poligonoAcuifero4);
-			map.removeLayer(poligonoAcuifero5);
-			map.removeLayer(poligonoAcuifero6);
-			map.removeLayer(poligonoAcuifero7);
-			map.removeLayer(poligonoAcuifero8);
-			map.removeLayer(poligonoAcuifero9);
-			map.removeLayer(poligonoAcuifero10);
-			map.removeLayer(poligonoAcuifero11);	
-			map.removeLayer(poligonoAcuifero12);
-			map.removeLayer(poligonoAcuifero13);
-			map.removeLayer(poligonoAcuifero14);
-			map.removeLayer(poligonoAcuifero15);
-			map.removeLayer(poligonoAcuifero16);
-			map.removeLayer(poligonoAcuifero17);
-			map.removeLayer(poligonoAcuifero18);		
-			map.removeLayer(poligonoAcuifero19);
-			map.removeLayer(poligonoAcuifero20);			
-			map.removeLayer(poligonoAcuifero21);
-			map.removeLayer(poligonoAcuifero22);
-			map.removeLayer(poligonoAcuifero23);
-			map.removeLayer(poligonoAcuifero24);
-			map.removeLayer(poligonoAcuifero25);
-			map.removeLayer(poligonoAcuifero26);
-			
-			map.removeLayer(marcador_cartel);
-			map.removeLayer(marcador_cartel2);
-			map.removeLayer(marcador_cartel3);
-			map.removeLayer(marcador_cartel4);
-		
-				
-			// Si los marcadores están visibles, eliminarlos del mapa
-			for (var nombre in SistemaAbastecimientoMarkers) {
-			  if (SistemaAbastecimientoMarkers.hasOwnProperty(nombre)) {	  
-				map.removeLayer(SistemaAbastecimientoMarkers[nombre]);
-			  }
-			}
-			subpanelSistemaAbastecimiento.style.display = "none"; // Ocultar el subpanel
-
-
-			
-			poligonoVisible = false; // Cambiar el estado a no visible
-			btnSistemaAbastecimiento.classList.remove("active");  // Remover la clase 'active'
-		    btnSistemaAbastecimiento.classList.add("nonactive");  // Añadir la clase 'nonactive'
-		}
-	}
-*/
 
 
 
@@ -2034,6 +1722,13 @@ var mensajito2 = L.popup()
 		  btnPozos3.classList.remove("active");  // Remover la clase 'active'
 		  btnPozos3.classList.add("nonactive");  // Añadir la clase 'nonactive'	
 	  } else {
+	  
+
+		map.flyTo([-38.491085, -61.832986], 14, {
+			animate: true,
+			duration: 2.0
+		}); // Ajusta el nivel de zoom según sea necesario
+			
 		btnPozos3.classList.toggle("active");
 		// Si los marcadores están ocultos, agregarlos al mapa
 		for (var nombre in pozosMarkers) {
@@ -2063,6 +1758,12 @@ var mensajito2 = L.popup()
 		  btnPozos4.classList.remove("active");  // Remover la clase 'active'
 		  btnPozos4.classList.add("nonactive");  // Añadir la clase 'nonactive'	
 	  } else {
+
+		map.flyTo([-38.485576, -61.791401], 14, {
+			animate: true,
+			duration: 2.0
+		}); // Ajusta el nivel de zoom según sea necesario	  
+	  
 		btnPozos4.classList.toggle("active");
 		// Si los marcadores están ocultos, agregarlos al mapa
 		for (var nombre in pozosMarkers2) {
@@ -2555,6 +2256,12 @@ var mensajito2 = L.popup()
 			
 			
 		} else {
+
+			map.flyTo([-38.722215, -62.242012], 12, {
+			animate: true,
+			duration: 2.0
+			}); // Ajusta el nivel de zoom según sea necesario
+				
 			btnConvexHulls.classList.toggle("active");
 			// Mostrar las envolventes convexas
 			convexHullLayers = []; // Reiniciar la lista de capas
@@ -2728,6 +2435,15 @@ var mensajito2 = L.popup()
 	  var subpanelAcuiferos = document.getElementById("subpanel-Agua-Subterranea-Acuiferos");
 
 	  if (subterraneaVisible) {
+	  
+		toggleSubterraneaPozos3()
+		toggleSubterraneaPozos4()
+		toggleSubterraneaEmpresas()
+		
+		map.flyTo([-38.612578, -62.052841], 11, {
+			animate: true,
+			duration: 2.0
+		}); // Ajusta el nivel de zoom según sea necesario	
 	  
 	    btnAguaSubterranea.classList.toggle("active");
 		
