@@ -2299,7 +2299,7 @@ var mensajito2 = L.popup()
 			//var puntos = [/* tus puntos aquí */]; // Define tus puntos aquí
 			//var color = 'blue'; // Puedes definir otro color si deseas
 
-			var hull_cuenca_primera = obtenerConvexHull(puntos_area_primera_cuenca, 'green');
+			var hull_cuenca_primera = obtenerConvexHull(puntos_area_primera_cuenca, '#88e99a');
 			
 			hull_cuenca_primera.on('mouseover', function (e) {
 				var popup = L.popup()
@@ -2314,7 +2314,7 @@ var mensajito2 = L.popup()
 			
 			convexHullLayers.push(hull_cuenca_primera); // Agregar la capa al array
 			
-			var hull_cuenca_segunda = obtenerConvexHull(puntos_area_segunda_cuenca, 'blue');
+			var hull_cuenca_segunda = obtenerConvexHull(puntos_area_segunda_cuenca, '#44d6e2');
 			
 			hull_cuenca_segunda.on('mouseover', function (e) {
 				var popup = L.popup()
@@ -2329,7 +2329,7 @@ var mensajito2 = L.popup()
 			
 			convexHullLayers.push(hull_cuenca_segunda); // Agregar la capa al array
 			
-			var hull_cuenca_tercera = obtenerConvexHull(puntos_area_tercera_cuenca, 'red');
+			var hull_cuenca_tercera = obtenerConvexHull(puntos_area_tercera_cuenca, '#c4e334');
 			
 			hull_cuenca_tercera.on('mouseover', function (e) {
 				var popup = L.popup()
