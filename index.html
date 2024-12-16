@@ -297,7 +297,7 @@
     <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reuso</button> <!-- Nuevo botón -->
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Reuso" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Marcadores</h4>
+        <!--<h4>Marcadores</h4>-->
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
     </div>	
 	
@@ -639,7 +639,8 @@
 //      { "Nombre": "Planta Depuradora de Líquidos Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558 },
 //      { "Nombre": "Planta Depuradora Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171 },
 
-	  { "Nombre": "Embalse Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888, "CaudalDisponible": "259.000", "CaudalCaptado": "240.000" },
+	  //{ "Nombre": "Embalse Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888, "CaudalDisponible": "259.000", "CaudalCaptado": "240.000" },
+	  { "Nombre": "Embalse Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888},
 	  
 	  { "Nombre": "Río Sauce Grande", "Latitud": -38.487238, "Longitud": -61.785425, "Caudal": "259.000"},
 	  
@@ -658,9 +659,15 @@
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
 			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal potabilizado (m<sup>3</sup>/d): " + punto.Caudal);
 		} else if (punto.Nombre == "Embalse Paso de las Piedras") {
-		  var marker = L.marker([punto.Latitud, punto.Longitud])
+	//		var marker = L.marker([punto.Latitud, punto.Longitud])
+	////		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.CaudalDisponible + "</b><br>" + "Caudal captado (m<sup>3</sup>/d): " + punto.CaudalCaptado);	
+
+			var marker = L.marker([punto.Latitud, punto.Longitud])
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
-			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.CaudalDisponible + "</b><br>" + "Caudal captado (m<sup>3</sup>/d): " + punto.CaudalCaptado);		
+			.bindPopup("<b>" + punto.Nombre);	
+
+			
 		} else if (punto.Nombre == "Acueducto Principal") {
 			var marker = L.marker([punto.Latitud, punto.Longitud])
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
@@ -2339,7 +2346,7 @@ var mensajito2 = L.popup()
 			convexHullsVisible = true;
 			
 			
-			
+		/*	
 			subpanelReuso.style.display = "block"; // Mostrar el subpanel
 			
 			// Si los marcadores están ocultos, agregarlos al mapa
@@ -2364,7 +2371,7 @@ var mensajito2 = L.popup()
 			  };
 			  subpanelReuso.appendChild(puntos_Plantas_pri_sec_cuencaButton);
 			});
-		
+		*/
 			// Cambiar el estado de visibilidad
 //			Plantas_pri_sec_cuencaVisible = !Plantas_pri_sec_cuencaVisible;
 		}
