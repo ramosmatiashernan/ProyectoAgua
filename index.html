@@ -285,7 +285,7 @@
 	<button id="toggle-Agua-Subterranea" onclick="toggleAguaSubterranea()">Agua Subterránea</button>
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Agua-Subterranea" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
-        <h4>Agua Subterranea</h4>
+        <h4>Agua Subterránea</h4>
         <!-- Aquí se agregarán los botones de los marcadores de forma dinámica -->
 		<button id="toggle-Agua-Subterranea-Pozos3" onclick="toggleSubterraneaPozos3()">Pozos Cabildo</button>
 		<button id="toggle-Agua-Subterranea-Pozos4" onclick="toggleSubterraneaPozos4()">Pozos Bajo San José</button>
@@ -649,24 +649,24 @@
 	
     var puntos_Sistema_de_Abastecimiento_Actual = [
 
-	{ "Nombre": "Acueducto Principal", "Latitud": -38.435438, "Longitud": -61.790371},
+	{"PuntosSistemaAbastecimientoMarkersVisible": true, "Nombre": "Acueducto Principal", "Latitud": -38.435438, "Longitud": -61.790371},
 
-	{ "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108, "Caudal": "192.000" },
+	{"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Planta Potabilizadora Patagonia", "Latitud": -38.7044, "Longitud": -62.2108, "Caudal": "192.000" },
 
-      { "Nombre": "Planta Potabilizadora Modular", "Latitud": -38.704903, "Longitud": -62.211027, "Caudal": "28.800" },
+      {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Planta Potabilizadora Modular", "Latitud": -38.704903, "Longitud": -62.211027, "Caudal": "28.800" },
 	  
-      { "Nombre": "Planta Potabilizadora Grünbein", "Latitud": -38.75089687, "Longitud": -62.11355741, "Caudal": "48.000" },
+      {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Planta Potabilizadora Grünbein", "Latitud": -38.75089687, "Longitud": -62.11355741, "Caudal": "48.000" },
 	  
 //      { "Nombre": "Planta Depuradora de Líquidos Primera Cuenca", "Latitud": -38.76623389, "Longitud": -62.22766558 },
 //      { "Nombre": "Planta Depuradora Tercera Cuenca", "Latitud": -38.71261139, "Longitud": -62.34359171 },
 
 	  //{ "Nombre": "Embalse Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888, "CaudalDisponible": "259.000", "CaudalCaptado": "240.000" },
-	  { "Nombre": "Embalse Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888},
+	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Embalse Paso de las Piedras", "Latitud": -38.38403752, "Longitud": -61.75976888},
 	  
-	  { "Nombre": "Río Sauce Grande", "Latitud": -38.487238, "Longitud": -61.785425, "Caudal": "259.000"},
+	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Río Sauce Grande", "Latitud": -38.487238, "Longitud": -61.785425, "Caudal": "259.000"},
 	  
-	  { "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
-	  { "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
+	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
     ];
 	
 	var SistemaAbastecimientoMarkers = {}; // Objeto para guardar los marcadores
@@ -1324,7 +1324,7 @@
 		var AcueductosButton = document.getElementById("acueductos-button");		
 		if (!poligonoVisible) {
 		
-	
+			var iniciador = 0; 
 				
 			map.flyTo([-38.585210, -61.929932], 10.5, {
 			animate: true,
@@ -1372,7 +1372,7 @@
 				toggleSubterraneaPozos2(); // Llamar a la función específica de Acueductos
 			};
 			subpanelSistemaAbastecimiento.appendChild(PozosBajoSanJoseButton);			
-			
+/*			
 			puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
 			  var SistemaAbastecimientomarkerButton = document.createElement("button");
 			  SistemaAbastecimientomarkerButton.classList.add("marker-Button"); // Asignar clase		  
@@ -1387,6 +1387,34 @@
 			  };
 			  subpanelSistemaAbastecimiento.appendChild(SistemaAbastecimientomarkerButton);
 			});
+*/			
+			
+			puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
+				var SistemaAbastecimientomarkerButton = document.createElement("button");
+				SistemaAbastecimientomarkerButton.classList.add("marker-Button"); // Asignar clase
+				SistemaAbastecimientomarkerButton.innerHTML = punto.Nombre;
+				SistemaAbastecimientomarkerButton.style.display = "block"; // Opcional: mostrar cada botón en una nueva línea
+				SistemaAbastecimientomarkerButton.style.marginBottom = "5px"; // Espacio entre los botones
+				SistemaAbastecimientomarkerButton.classList.toggle("active");
+				SistemaAbastecimientomarkerButton.onclick = function() {
+				if (!punto.PuntosSistemaAbastecimientoMarkersVisible) {
+					SistemaAbastecimientoMarkers[punto.Nombre].addTo(map);
+					punto.PuntosSistemaAbastecimientoMarkersVisible = !punto.PuntosSistemaAbastecimientoMarkersVisible;
+					SistemaAbastecimientomarkerButton.classList.toggle("active");	
+					map.flyTo([punto.Latitud, punto.Longitud], 13, {
+					animate: true,
+					duration: 2.0
+					}); // Ajusta el nivel de zoom según sea necesario					
+				} else {
+					map.removeLayer(SistemaAbastecimientoMarkers[punto.Nombre]);
+					punto.PuntosSistemaAbastecimientoMarkersVisible = !punto.PuntosSistemaAbastecimientoMarkersVisible;	
+					SistemaAbastecimientomarkerButton.classList.remove("active");  // Remover la clase 'active'
+					SistemaAbastecimientomarkerButton.classList.add("nonactive");  // Añadir la clase 'nonactive'					
+				}};
+				subpanelSistemaAbastecimiento.appendChild(SistemaAbastecimientomarkerButton);
+			});				
+			
+			
 										
 			poligonoVisible = true; // Cambiar el estado a visible
 			btnSistemaAbastecimiento.classList.toggle("active");
@@ -1423,7 +1451,9 @@
 			btnSistemaAbastecimiento.classList.remove("active");  // Remover la clase 'active'
 		    btnSistemaAbastecimiento.classList.add("nonactive");  // Añadir la clase 'nonactive'
 			
-
+			puntos_Sistema_de_Abastecimiento_Actual.forEach(function(punto) {
+				punto.PuntosSistemaAbastecimientoMarkersVisible = true;
+			});
 		}
 		
 			
@@ -2368,7 +2398,7 @@ var mensajito2 = L.popup()
 			convexHullsVisible = true;
 			
 			
-		/*	
+			
 			subpanelReuso.style.display = "block"; // Mostrar el subpanel
 			
 			// Si los marcadores están ocultos, agregarlos al mapa
@@ -2393,7 +2423,7 @@ var mensajito2 = L.popup()
 			  };
 			  subpanelReuso.appendChild(puntos_Plantas_pri_sec_cuencaButton);
 			});
-		*/
+		
 			// Cambiar el estado de visibilidad
 //			Plantas_pri_sec_cuencaVisible = !Plantas_pri_sec_cuencaVisible;
 		}
@@ -2494,9 +2524,9 @@ var mensajito2 = L.popup()
 		contador2 = 0;
 		toggleSubterraneaPozos4()
 		
-		toggleSubterraneaEmpresas()
-		
-		map.flyTo([-38.612578, -62.052841], 11, {
+		//toggleSubterraneaEmpresas()
+
+		map.flyTo([-38.488532, -61.806507], 13, {
 			animate: true,
 			duration: 2.0
 		}); // Ajusta el nivel de zoom según sea necesario	
@@ -2507,8 +2537,8 @@ var mensajito2 = L.popup()
 		subpanelAguaSubterranea.style.display = "block";
 		btnPozos3.style.display = "block";
 		btnPozos4.style.display = "block";		
-		btnEmpresas.style.display = "block";
-		btnAcuiferos.style.display = "block";
+		btnEmpresas.style.display = "none";
+		btnAcuiferos.style.display = "none";
 	  } else {
 	  
 		if (Empresas_markersVisible) {
