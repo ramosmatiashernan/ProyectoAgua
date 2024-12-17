@@ -36,7 +36,8 @@
       position: absolute;
       top: 100px;  /* Mueve el panel hacia abajo (ajusta el valor según sea necesario) */
       left: 10px;
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(255, 255, 255, 0.3); 
+	/*  background-color: #c4e334;  */
       border-radius: 5px;
       max-height: 400px;
 	  margin-top: 20px;
@@ -57,12 +58,14 @@
       padding: 5px;
       margin: 5px 0;
 	  font-size: 1em; /* Tamaño del texto */	  
-      background-color: #f1f1f1;
+      background-color: #f1f1f1;  
+	/*   background-color: #88e99a;  */
       border-radius: 3px;
     }
 
     .plant-item:hover {
-      background-color: #ddd;
+      background-color: #ddd; 
+	/*  background-color: #88e99a; */
     }
 
     .toggle-visibility {
@@ -72,9 +75,11 @@
     }
 
 	button.active {
-	  background-color: #007bff; 
+ /*	  background-color: #007bff;  */
+	  background-color: #007d8e;
 	  color: white;               
-	  border: 1px solid #0056b3; 
+/*	  border: 1px solid #0056b3;  */
+	  border: 1px solid #152544;
 	  font-weight: bold;          
 	}	
 	
@@ -131,8 +136,8 @@
 	#toggle-panel {
 	  position: absolute;
 	  top: 0px;
-	  right: 5px;
-	  background-color: #4CAF50;
+	  right: 0px;
+	  background-color: #007d8e;
 	  color: white;
 	  border: none;
 	  border-radius: 3px;
@@ -142,7 +147,7 @@
 	}
 
 	#plant-list.minimized {
-	  max-height: 100px; /* Altura cuando está minimizado */
+	  max-height: 25px; /* Altura cuando está minimizado */
 	  overflow: hidden;
 	  padding: 20px 10px;
 	  transition: max-height 0.3s ease-in-out;
@@ -185,7 +190,7 @@
 	#titulo-portada h1 {
 	  font-family: 'Roboto', Arial, sans-serif; /* Fuente más moderna y profesional */
 	  font-size: 3.5em; /* Un poco más grande para más impacto */
-	  color: #45a049; /* El color verde que te gusta */
+	  color: #007d8e; /* El color verde que te gusta */
 	  font-weight: 700; /* Negrita para darle presencia */
 	  text-align: center; /* Alineado al centro */
 	  letter-spacing: 3px; /* Un poco de espaciado entre letras para darle elegancia */
@@ -205,7 +210,7 @@
 	#boton-ingresar button {
 	  padding: 15px 30px;
 	  font-size: 1.5em;
-	  background-color: #4CAF50;
+	  background-color: #007d8e;
 	  color: white;
 	  border: none;
 	  border-radius: 5px;
@@ -214,7 +219,8 @@
 	}
 
 	#boton-ingresar button:hover {
-	  background-color: #45a049;
+	  background-color: #007d8e;
+	  opacity: 0.9;
 	}
 
 	/* Estilo para el mapa */
