@@ -176,17 +176,13 @@
 	  position: absolute;
 	  top: 0;
 	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  background-image: 
-		/*linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), */
-		/*url('https://telwesa.com/wp-content/uploads/2021/10/tratamiento-de-aguas-residuales.jpg'); */   /* Imagen de fondo */
-		url('https://raw.githubusercontent.com/ramosmatiashernan/ProyectoAgua/refs/heads/master/Portada/fondo-gis-letras.png');
-	  background-size: cover;
-	  background-position: center;
-	  background-repeat: no-repeat; /* Evita que la imagen se repita */
-	  /* background-attachment: fixed;*/ /* La imagen permanece fija al hacer scroll */
-	  z-index: -1; /* La imagen estará detrás del contenido */
+	  width: 100vw; /* Ancho completo de la ventana */
+	  height: 100vh; /* Alto completo de la ventana */
+	  background-image: url('https://raw.githubusercontent.com/ramosmatiashernan/ProyectoAgua/refs/heads/master/Portada/fondo-gis-letras.png');
+	  background-size: 100% 100%; /* Estira la imagen para cubrir todo sin recortar */
+	  background-position: center; /* Centra la imagen */
+	  background-repeat: no-repeat; /* No repite la imagen */
+	  z-index: -1;
 	}
 	
 	#titulo-portada h1 {
@@ -203,25 +199,28 @@
 	}
 	
 	#boton-ingresar {
-	  display: flex; /* Asegura que el contenido se alinee dentro del contenedor */
-	  justify-content: center; /* Centra el botón horizontalmente */
-	  align-items: center; /* Centra el botón verticalmente */
-	  z-index: 1; /* Asegura que el botón esté por encima de la imagen */
+	  display: flex; /* Centra el contenido dentro del contenedor */
+	  justify-content: center;
+	  align-items: center;
+	  z-index: 1; /* Asegura que esté por encima */
 	}
 
 	#boton-ingresar button {
-	  padding: 15px 30px;
-	  font-size: 1.5em;
-	  background-color: #007d8e;
-	  color: white;
-	  border: none;
-	  border-radius: 5px;
+	  padding: 20px 40px; /* Espaciado interno */
+	  font-size: 2.0em; /* Tamaño del texto */
+	  background-color: #44d6e2; /* Color de fondo */
+	  color: #152544; /* Color del texto */
+	  border: none; /* Elimina el borde */
+	  border-radius: 50px; /* Esquinas redondeadas tipo píldora */
 	  cursor: pointer;
-	  margin-top: 20px;
+	  margin-top: 690px;
+	  text-transform: uppercase; /* Texto en mayúsculas */
+	  font-weight: bold; /* Texto más grueso */
 	}
 
 	#boton-ingresar button:hover {
-	  background-color: #007d8e;
+	  background-color: #007d8e; /* Cambio de color al pasar el mouse */
+	  color: #44d6e2; /* Color de texto inverso */
 	  opacity: 0.9;
 	}
 
