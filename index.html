@@ -179,11 +179,13 @@
 	  right: 0;
 	  bottom: 0;
 	  background-image: 
-		linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), 
-		url('https://telwesa.com/wp-content/uploads/2021/10/tratamiento-de-aguas-residuales.jpg'); /* Imagen de fondo */
+		/*linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), */
+		/*url('https://telwesa.com/wp-content/uploads/2021/10/tratamiento-de-aguas-residuales.jpg'); */   /* Imagen de fondo */
+		url('https://raw.githubusercontent.com/ramosmatiashernan/ProyectoAgua/refs/heads/master/Portada/fondo-gis-letras.png');
 	  background-size: cover;
 	  background-position: center;
-	  background-repeat: no-repeat;
+	  background-repeat: no-repeat; /* Evita que la imagen se repita */
+	  /* background-attachment: fixed;*/ /* La imagen permanece fija al hacer scroll */
 	  z-index: -1; /* La imagen estará detrás del contenido */
 	}
 	
@@ -243,9 +245,11 @@
 
   <!-- Portada (Pantalla de inicio) -->
   <div id="portada" style="display: block;">
-    <div id="titulo-portada">
+    <!--
+	<div id="titulo-portada">
       <h1>GIS <br> INVENTARIO DE AGUA PARA USO INDUSTRIAL</h1>
     </div>
+	-->
     <div id="boton-ingresar">
       <button onclick="ingresar()">INGRESAR</button>
     </div>
