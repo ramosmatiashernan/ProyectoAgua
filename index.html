@@ -199,10 +199,14 @@
 	}
 	
 	#boton-ingresar {
+	  position: fixed; /* Mantiene el botón fijo en el viewport */
+	  bottom: 19.5%; /* Ajusta la posición desde el borde inferior */
+	  left: 50%; /* Centra horizontalmente */
+	  transform: translateX(-50%); /* Centra perfectamente el botón */
 	  display: flex; /* Centra el contenido dentro del contenedor */
 	  justify-content: center;
 	  align-items: center;
-	  z-index: 1; /* Asegura que esté por encima */
+	  z-index: 1; /* Asegura que esté por encima del resto del contenido */
 	}
 
 	#boton-ingresar button {
