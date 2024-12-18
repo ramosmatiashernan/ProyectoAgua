@@ -677,8 +677,8 @@
 	  
 	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Río Sauce Grande", "Latitud": -38.487238, "Longitud": -61.785425, "Caudal": "7.200", "Conductividad": "XXXX"},
 	  
-	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600" },
-	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400" },
+	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Toma Paraje Mirasoles", "Latitud": -38.668450, "Longitud": -62.120709, "Caudal": "21.600", "Conductividad": "XXXX" },
+	  {"PuntosSistemaAbastecimientoMarkersVisible": true,  "Nombre": "Toma Empleados de Comercio", "Latitud": -38.678218, "Longitud": -62.168242, "Caudal": "14.400", "Conductividad": "XXXX" },
     ];
 	
 	var SistemaAbastecimientoMarkers = {}; // Objeto para guardar los marcadores
@@ -709,6 +709,10 @@
 			var marker = L.marker([punto.Latitud, punto.Longitud], { icon: customIcon })
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
 			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal potencialmente disponible (m<sup>3</sup>/d): " + punto.Caudal + "</b><br>" + "Conductividad (μS/cm): " + punto.Conductividad);		
+		} else if (punto.Nombre == "Toma Paraje Mirasoles" || punto.Nombre == "Toma Empleados de Comercio") {
+			var marker = L.marker([punto.Latitud, punto.Longitud], { icon: customIcon })
+	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
+			.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Caudal disponible (m<sup>3</sup>/d): " + punto.Caudal + "</b><br>" + "Conductividad (μS/cm): " + punto.Conductividad);		
 		} else {
 		  var marker = L.marker([punto.Latitud, punto.Longitud], { icon: customIcon })
 	//		.bindPopup("<b>" + punto.Nombre + "</b><br>" + "Latitud: " + punto.Latitud + "<br>" + "Longitud: " + punto.Longitud);
