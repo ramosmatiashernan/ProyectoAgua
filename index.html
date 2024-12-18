@@ -2005,9 +2005,9 @@ var mensajito2 = L.popup()
 		{"Latitud_marcador": -38.768556, "Longitud_marcador": -62.289133, "EmpresasMarkersVisible": false, "Latitud": -38.76844400179251, "Longitud": -62.286881328049546, "tamaño": 206.8332662, "Nombre": "Dow", "Caudal_Recolectado": 63 },  //Dow
 		{"Latitud_marcador": -38.687855, "Longitud_marcador": -62.394083, "EmpresasMarkersVisible": false, "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "tamaño": 133.4765897, "Nombre": "TGS Cerri", "Caudal_Recolectado": 26 },	//TGS Cerri
 		{"Latitud_marcador": -38.774374, "Longitud_marcador": -62.299052, "EmpresasMarkersVisible": false, "Latitud": -38.774332782559966, "Longitud": -62.299820304552654, "tamaño": 47.31807266, "Nombre": "TGS Galván", "Caudal_Recolectado": 3	 },	//TGS Galván
-		{"Latitud_marcador": -38.777883, "Longitud_marcador": -62.286183, "EmpresasMarkersVisible": false, "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 209.6425529, "Nombre": "Unipar", "Caudal_Recolectado": 57 }	//Unipar
+		{"Latitud_marcador": -38.777883, "Longitud_marcador": -62.286183, "EmpresasMarkersVisible": false, "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 199.047733, "Nombre": "Unipar", "Caudal_Recolectado": 57 },	//Unipar
+		{"Latitud_marcador": -38.788668, "Longitud_marcador": -62.271, "EmpresasMarkersVisible": false, "Latitud": -38.788668, "Longitud": -62.271647, "tamaño": 32.710854, "Nombre": "CGPBB", "Caudal_Recolectado": 1.5 }	//CGPBB
 	];
-
 
 	var EmpresasMarkers = {}; // Objeto para guardar los marcadores
 //	var EmpresasMarkersVisible = false; // Estado de visibilidad inicial
@@ -2071,7 +2071,13 @@ var mensajito2 = L.popup()
 		  [areaEmpresas[5].Latitud - (areaEmpresas[5].tamaño / 2 / 111320), areaEmpresas[5].Longitud - (areaEmpresas[5].tamaño / 2 / 111320)], // Esquina inferior izquierda
 		  [areaEmpresas[5].Latitud + (areaEmpresas[5].tamaño / 2 / 111320), areaEmpresas[5].Longitud + (areaEmpresas[5].tamaño / 2 / 111320)]  // Esquina superior derecha
 	];	
-		
+
+	var bounds7 = [
+		  [areaEmpresas[6].Latitud - (areaEmpresas[6].tamaño / 2 / 111320), areaEmpresas[6].Longitud - (areaEmpresas[6].tamaño / 2 / 111320)], // Esquina inferior izquierda
+		  [areaEmpresas[6].Latitud + (areaEmpresas[6].tamaño / 2 / 111320), areaEmpresas[6].Longitud + (areaEmpresas[6].tamaño / 2 / 111320)]  // Esquina superior derecha
+	];	
+
+	
 	// Ejemplo de cómo agregar un área de empresa al mapa
 	var empresa1 = L.rectangle(bounds1, { color: '#007d8e', weight: 1, fillOpacity: 0, opacity: 0 }).addTo(map);
 	var empresa2 = L.rectangle(bounds2, { color: '#007d8e', weight: 1, fillOpacity: 0, opacity: 0 }).addTo(map);
@@ -2079,9 +2085,10 @@ var mensajito2 = L.popup()
 	var empresa4 = L.rectangle(bounds4, { color: '#007d8e', weight: 1, fillOpacity: 0, opacity: 0 }).addTo(map);
 	var empresa5 = L.rectangle(bounds5, { color: '#007d8e', weight: 1, fillOpacity: 0, opacity: 0 }).addTo(map);
 	var empresa6 = L.rectangle(bounds6, { color: '#007d8e', weight: 1, fillOpacity: 0, opacity: 0 }).addTo(map);
+	var empresa7 = L.rectangle(bounds7, { color: '#007d8e', weight: 1, fillOpacity: 0, opacity: 0 }).addTo(map);
 
 	// Guardar en un array para facilitar la manipulación
-	var empresaLayers = [empresa1, empresa2, empresa3, empresa4, empresa5, empresa6];
+	var empresaLayers = [empresa1, empresa2, empresa3, empresa4, empresa5, empresa6, empresa7];
 
 
 
