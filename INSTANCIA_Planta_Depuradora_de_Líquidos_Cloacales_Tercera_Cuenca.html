@@ -80,9 +80,13 @@
 	  color: white;               
 /*	  border: 1px solid #0056b3;  */
 	  border: 1px solid #152544;
-	  font-weight: bold;          
+	  font-weight: bold;    
+	  width: 100%
 	}	
 	
+	button:not(.active) {
+	  width: 100%
+	}
 	
 	.small-marker {
 		width: 1px;  /* Ancho del punto */
@@ -159,7 +163,14 @@
 	}
 	
 	
-	
+	/* Excepción para el botón de minimizar */
+	button.minimize-btn {
+	  width: auto; /* Conserva el tamaño original */
+	  cursor: pointer; /* Cursor normal, ya que es funcional */
+	  background-color: inherit; /* Hereda el color de fondo por defecto */
+	  border: none; /* Sin borde adicional */
+	  color: inherit; /* Hereda el color del texto */
+	}	
 	
 	
 	#portada {
@@ -242,6 +253,37 @@
 	  opacity: 1;
 	  transition: opacity 0.5s ease;
 	}	
+	
+	#subpanel-Sistema-abastecimiento h4 {
+	  text-align: center; /* Centra el texto horizontalmente */
+	  margin: 0.01;          /* Opcional: elimina márgenes si los hubiera */
+	}	
+
+	#subpanel-Otras-Cuencas h4 {
+	  text-align: center; /* Centra el texto horizontalmente */
+	  margin: 0.01;          /* Opcional: elimina márgenes si los hubiera */
+	}
+	
+	#subpanel-Agua-Subterranea h4 {
+	  text-align: center; /* Centra el texto horizontalmente */
+	  margin: 0.01;          /* Opcional: elimina márgenes si los hubiera */
+	}	
+	
+	#subpanel-Agua-Subterranea-Empresas h4 {
+	  text-align: center; /* Centra el texto horizontalmente */
+	  margin: 0.01;          /* Opcional: elimina márgenes si los hubiera */
+	}
+
+	#subpanel-Pluvial h4 {
+	  text-align: center; /* Centra el texto horizontalmente */
+	  margin: 0.01;          /* Opcional: elimina márgenes si los hubiera */
+	}
+	
+	#subpanel-Reuso h4 {
+	  text-align: center; /* Centra el texto horizontalmente */
+	  margin: 0.01;          /* Opcional: elimina márgenes si los hubiera */
+	}	
+	
   </style>
 </head>
 <body>
@@ -307,7 +349,7 @@
 		</div>			
     </div>
 
-    <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reuso</button> <!-- Nuevo botón -->
+    <button id="toggle-convex-hulls" onclick="toggleConvexHulls()">Reúso</button> <!-- Nuevo botón -->
 	<!-- Subpanel de los botones de los marcadores (inicialmente oculto) -->
     <div id="subpanel-Reuso" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;">
         <!--<h4>Marcadores</h4>-->
@@ -323,7 +365,7 @@
 
     <button id="Agua-Marina" onclick="toggleAguaMarina()">Agua Marina</button> <!-- Nuevo botón -->
 	
-    <button id="toggle-panel" onclick="togglePanel()">-</button> <!-- Botón de minimizar/maximizar -->
+    <button class="minimize-btn" id="toggle-panel" onclick="togglePanel()">-</button> <!-- Botón de minimizar/maximizar -->
  <!--   <h3>Capas</h3>  -->
     <div id="plant-entries"></div>
 <!--
@@ -410,8 +452,8 @@
     ];
 
     var puntos_agua_subterranea_empresas = [
-      { "Nombre": "Unipar", "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "Caudal_de_agua_subterránea": "650", "Conductividad": "1.101" },
-      { "Nombre": "TGS Cerri", "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "Caudal_de_agua_subterránea": "2.260" , "Conductividad": "1.021-5.080 (media=2.777)" }
+      { "Nombre": "UNIPAR", "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "Caudal_de_agua_subterránea": "650", "Conductividad": "1.101" },
+      { "Nombre": "TGS CERRI", "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "Caudal_de_agua_subterránea": "2.260" , "Conductividad": "1.021-5.080 (media=2.777)" }
     ];
 
 
@@ -2006,12 +2048,12 @@ var mensajito2 = L.popup()
 	
 	
 	var areaEmpresas = [
-		{"Latitud_marcador": -38.785586, "Longitud_marcador": -62.280121, "EmpresasMarkersVisible": false, "Latitud": -38.785531834725035, "Longitud": -62.281728805807646, "tamaño": 209.6425529, "Nombre": "Profertil", "Caudal_Recolectado": 63},  //Profertil
-		{"Latitud_marcador": -38.782742, "Longitud_marcador": -62.289112, "EmpresasMarkersVisible": false, "Latitud": -38.78293923077242, "Longitud": -62.290494264514145, "tamaño": 95.60857702, "Nombre": "Mega", "Caudal_Recolectado": 13 },   //Mega
-		{"Latitud_marcador": -38.768556, "Longitud_marcador": -62.289133, "EmpresasMarkersVisible": false, "Latitud": -38.76844400179251, "Longitud": -62.286881328049546, "tamaño": 206.8332662, "Nombre": "Dow", "Caudal_Recolectado": 63 },  //Dow
-		{"Latitud_marcador": -38.687855, "Longitud_marcador": -62.394083, "EmpresasMarkersVisible": false, "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "tamaño": 133.4765897, "Nombre": "TGS Cerri", "Caudal_Recolectado": 26 },	//TGS Cerri
-		{"Latitud_marcador": -38.774374, "Longitud_marcador": -62.299052, "EmpresasMarkersVisible": false, "Latitud": -38.774332782559966, "Longitud": -62.299820304552654, "tamaño": 47.31807266, "Nombre": "TGS Galván", "Caudal_Recolectado": 3	 },	//TGS Galván
-		{"Latitud_marcador": -38.777883, "Longitud_marcador": -62.286183, "EmpresasMarkersVisible": false, "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 199.047733, "Nombre": "Unipar", "Caudal_Recolectado": 57 },	//Unipar
+		{"Latitud_marcador": -38.785586, "Longitud_marcador": -62.280121, "EmpresasMarkersVisible": false, "Latitud": -38.785531834725035, "Longitud": -62.281728805807646, "tamaño": 209.6425529, "Nombre": "PROFERTIL", "Caudal_Recolectado": 63},  //Profertil
+		{"Latitud_marcador": -38.782742, "Longitud_marcador": -62.289112, "EmpresasMarkersVisible": false, "Latitud": -38.78293923077242, "Longitud": -62.290494264514145, "tamaño": 95.60857702, "Nombre": "MEGA", "Caudal_Recolectado": 13 },   //Mega
+		{"Latitud_marcador": -38.768556, "Longitud_marcador": -62.289133, "EmpresasMarkersVisible": false, "Latitud": -38.76844400179251, "Longitud": -62.286881328049546, "tamaño": 206.8332662, "Nombre": "DOW", "Caudal_Recolectado": 63 },  //Dow
+		{"Latitud_marcador": -38.687855, "Longitud_marcador": -62.394083, "EmpresasMarkersVisible": false, "Latitud": -38.687842707935516, "Longitud": -62.39214194385815, "tamaño": 133.4765897, "Nombre": "TGS CERRI", "Caudal_Recolectado": 26 },	//TGS Cerri
+		{"Latitud_marcador": -38.774374, "Longitud_marcador": -62.299052, "EmpresasMarkersVisible": false, "Latitud": -38.774332782559966, "Longitud": -62.299820304552654, "tamaño": 47.31807266, "Nombre": "TGS GALVÁN", "Caudal_Recolectado": 3	 },	//TGS Galván
+		{"Latitud_marcador": -38.777883, "Longitud_marcador": -62.286183, "EmpresasMarkersVisible": false, "Latitud": -38.77803811546216, "Longitud": -62.287739636009086, "tamaño": 199.047733, "Nombre": "UNIPAR", "Caudal_Recolectado": 57 },	//Unipar
 		{"Latitud_marcador": -38.788668, "Longitud_marcador": -62.271, "EmpresasMarkersVisible": false, "Latitud": -38.788668, "Longitud": -62.271647, "tamaño": 32.710854, "Nombre": "CGPBB", "Caudal_Recolectado": 1.5 }	//CGPBB
 	];
 
@@ -2447,7 +2489,7 @@ var mensajito2 = L.popup()
 			}			
 			// Crear botones para cada marcador en el subpanel
 			subpanelReuso.innerHTML = "<h4> Marcadores </h4>"; // Limpiar el contenido existente y agregar el título
-			puntos_Plantas_pri_sec_cuenca.forEach(function(punto,index) {
+			puntos_Plantas_pri_sec_cuenca.forEach(function(punto, index) {
 			  var puntos_Plantas_pri_sec_cuencaButton = document.createElement("button");
 			  puntos_Plantas_pri_sec_cuencaButton.classList.add("marker-Button"); // Asignar clase		  
 			  puntos_Plantas_pri_sec_cuencaButton.innerHTML = punto.Nombre;
@@ -2575,7 +2617,9 @@ var mensajito2 = L.popup()
 		// Mostrar subpanel y botones asociados
 		subpanelAguaSubterranea.style.display = "block";
 		btnPozos3.style.display = "block";
-		btnPozos4.style.display = "block";		
+		btnPozos3.style.margin = "5px 0";
+		btnPozos4.style.display = "block";	
+		btnPozos4.style.margin = "5px 0";		
 		btnEmpresas.style.display = "none";
 		btnAcuiferos.style.display = "none";
 	  } else {
